@@ -1,15 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using log4net;
 
 namespace MK.ConsoleHost
 {
     class Program
     {
-        static void Main(string[] args)
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+        static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
+            Log.Info("Starting up Service");
+            using (var service = new Service.Service())
+            {
+                service.Start();
+                Console.WriteLine(@"Press any key to quit...");
+                Console.ReadKey();
+            }
         }
     }
 }

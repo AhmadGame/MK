@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MK.ConsoleHost", "MK.Consol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MK.Service", "MK.Service\MK.Service.csproj", "{40CC3072-21DD-4AAE-A15B-590EF6286996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mk.WindowsServiceHost", "Mk.WindowsServiceHost\Mk.WindowsServiceHost.csproj", "{FF99C2EF-1B17-438A-9072-3F664B4BAD9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MK.WindowsServiceHost", "Mk.WindowsServiceHost\MK.WindowsServiceHost.csproj", "{FF99C2EF-1B17-438A-9072-3F664B4BAD9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
