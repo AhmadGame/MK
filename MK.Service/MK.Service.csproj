@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IniFile.cs" />
+    <Compile Include="Question.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Bootstrapper.cs" />
@@ -58,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="questions.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Web\Views\static\css\bootstrap-theme.css.map" />
     <None Include="Web\Views\static\css\bootstrap.css.map" />
     <None Include="Web\Views\static\fonts\glyphicons-halflings-regular.eot" />

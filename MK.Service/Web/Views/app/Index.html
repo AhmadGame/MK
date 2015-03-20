@@ -18,6 +18,13 @@
     <link rel="stylesheet" href="static/css/main.css">
 
     <script src="static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="static/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="static/js/vendor/bootstrap.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <script src="static/js/server.js"></script>
+    <script type="text/javascript" src='static/js/vendor/lodash.js'></script>
+    <script type='text/javascript' src='static/js/vendor/knockout-3.3.0.js'></script>
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -32,50 +39,74 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Mokhalads trafikskola</a>
+                <a class="navbar-brand" href="#">BYT UT MIG</a>
             </div>
         </div>
     </nav>
-
-    <!--Question-->
+    
+    <!--ko if: activeQuestion()-->
     <div id="Question" class="jumbotron">
         <div class="container">
-            <h3>Du kommer till en olycksplats. En person som förefaller oskadad uppträder förvirrat. Vad ska du göra?</h3>
+            <h3 data-bind="text: activeQuestion().title"></h3>
         </div>
     </div>
 
     <div id="Answers" class="container">
         <div class="radio">
-            <p><label><input type="radio" name="optradio">Ge personen vätska att dricka och tala lugnande.</label></p>
-            <p><label><input type="radio" name="optradio">Placera personen i stabilt sidoläge och se till att hon/han håller sig varm.</label></p>
-            <p><label><input type="radio" name="optradio">Ta med personen bort från olycksplatsen, se till att hon/han håller sig varm och tala lugnt.</label></p>
-            <p><label><input type="radio" name="optradio">Svar 4</label></p>
+            <!--ko if: activeQuestion().answer1-->
+            <p>
+                <label>
+                    <input type="radio" name="optradio" value="answer1" >
+                    <span data-bind="text: activeQuestion().answer1"></span>
+                </label>
+            </p>
+            <!-- /ko-->
+            <!--ko if: activeQuestion().answer2-->
+            <p>
+                <label>
+                    <input type="radio" name="optradio">
+                    <span data-bind="text: activeQuestion().answer2"></span>
+                </label>
+            </p>
+            <!-- /ko-->
+            <!--ko if: activeQuestion().answer3-->
+            <p>
+                <label>
+                    <input type="radio" name="optradio">
+                    <span data-bind="text: activeQuestion().answer3"></span>
+                </label>
+            </p>
+            <!-- /ko-->
+            <!--ko if: activeQuestion().answer4-->
+            <p>
+                <label>
+                    <input type="radio" name="optradio">
+                    <span data-bind="text: activeQuestion().answer4"></span>
+                </label>
+            </p>
+            <!-- /ko-->
         </div>
         <hr>
-
-        <div id="Actions" class="row row-centered" style="">
+        <div id="Actions" class="row-centered">
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary">&laquo; Tillbaka</button>
+                <button type="button" class="btn btn-primary" data-bind="click: window.bajs.prev">&laquo; Tillbaka</button>
             </div>
             <div class="col-md-3">
-                <button type="button" class="btn btn-info">Markera</button>
+                <button type="button" class="btn btn-info" data-bind="click: mark">Markera</button>
             </div>
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary">Nästa &raquo;</button>
+                <button type="button" class="btn btn-primary" data-bind="click: window.bajs.next">Nästa &raquo;</button>
             </div>
         </div>
-    </div> <!-- /container -->
+    </div>
+    <!-- /ko-->
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="static/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-    <script src="static/js/vendor/bootstrap.min.js"></script>
-    <script src="static/js/main.js"></script>
-    <script type="text/javascript" src='static/js/vendor/lodash.js'></script>
-    <script type='text/javascript' src='static/js/vendor/knockout-3.3.0.js'></script>
     <script>
         $(function () {
-            ko.applyBindings(MK.vm.questions());
+            window.bajs = new MK.vm.loadQuestions();
+            ko.applyBindings(window.bajs);
         });
     </script>
+    
 </body>
 </html>

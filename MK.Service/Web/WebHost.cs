@@ -36,8 +36,11 @@ namespace MK.Service.Web
 
         public void Dispose()
         {
-            _webServiceHost.Close();
-            Log.Info("Web service shut down!");
+            if (_webServiceHost != null)
+            {
+                _webServiceHost.Close();
+                Log.Info("Web service shut down!");
+            }
         }
     }
 }

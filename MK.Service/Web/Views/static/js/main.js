@@ -2,88 +2,129 @@
 var MK = MK || {};
 MK.vm = {};
 
-MK.vm.questions = function() {
-    var questions = ko.observable([]),
-    	activeQuestion = ko.observable(null);
+MK.vm.loadQuestions = function () {
+    var self = this;
+    var questions,
+        activeIndex = ko.observable(0),
+    	activeQuestion = ko.observable(null),
+        nextQuestion = ko.observable(null),
+        previousQuestion = ko.observable(null);
 
-var json = {
-	questions: [{
-		index: 0,
-		title: "Du kommer till en olycksplats. En person som förefaller oskadad uppträder förvirrat. Vad ska du göra?",
-		correct: 1,
-		answers: [{
-			answer: "Ge personen vätska att dricka och tala lugnande."
-		},
-		{
-			answer: "Placera personen i stabilt sidoläge och se till att hon/han håller sig varm."
-		},
-		{
-			answer: "Ta med personen bort från olycksplatsen, se till att hon/han håller sig varm och tala lugnt."
-		},
-		{
-			answer: ""
-		}]
-	},
-	{
-		index: 1,
-		title: "Var är det förbjudet att parkera och stanna?",
-		correct: 2,
-		answers: [{
-			answer: "Framför en utfart där jag inte hindrar någon."
-		},
-		{
-			answer: "I ett cykelfält."
-		},
-		{
-			answer: "25 meter före en järnvägskorsning."
-		},
-		{
-			answer: "På en huvudled."
-		}]
-	}]};
+    function next() {
+        if (!self.nextQuestion()) {
+            return;
+        }
 
-    function next () {
+        self.previousQuestion(activeQuestion());
+        self.activeQuestion(nextQuestion());
+        self.activeIndex(nextQuestion().index);
+        self.nextQuestion(self.questions[activeIndex() + 1]);
     }
 
-    function prev () {
+    function prev() {
+        if (!self.previousQuestion()) {
+            return;
+        }
+
+        self.nextQuestion(activeQuestion());
+        self.activeQuestion(previousQuestion());
+        self.activeIndex(previousQuestion().index);
+        if (activeIndex() >= 1) {
+            self.previousQuestion(self.questions[activeIndex() - 1]);
+        } else {
+            previousQuestion(null);
+        }
     }
 
-    function init (data) {
+    function mark() {
+        self.activeQuestion().marked = true;
     }
 
-    //MK.server.getJson('/admin/datasource/context', init, function onFailure() {
-    //    document.location.href = './fail.html';
-    //});
+    function init(data) {
+        self.questions = _.map(data, function(questionJson) {
+            var question = new MK.vm.question();
+            question.init(questionJson);
+            return question;
+        });
 
-	init(json);
-    return {
-    	questions: questions,
-        next: next,
-        prev: prev
-    };
+        for (var i = 0; i < self.questions.length; i++) {
+            self.questions[i].index = i;
+        }
+
+        self.activeIndex(0);
+        self.activeQuestion(self.questions[activeIndex()]);
+        self.nextQuestion(self.questions[activeIndex() + 1]);
+    }
+
+    MK.server.getJson('/questions/5', init, function onFailure() {
+        document.location.href = './fail.html';
+    });
+
+    this.questions = questions;
+    this.activeQuestion = activeQuestion;
+    this.activeIndex = activeIndex;
+    this.nextQuestion = nextQuestion;
+    this.previousQuestion = previousQuestion;
+    this.next = next;
+    this.prev = prev;
+    this.mark = mark;
+
 };
 
 MK.vm.question = function () {
-	var title = ko.observable(''),
-	answers = ko.observable([]),
-	correct = ko.observable(0),
-	index = ko.observable(0)
+    var self = this;
+    var index,
+        title,
+        answer1,
+        answer2,
+        answer3,
+        answer4,
+        correct,
+        explain1,
+        explain2,
+        explain3,
+        explain4,
+        image1,
+        image2,
+        image3,
+        image4,
+        page_reference,
+        marked;
 	
 	function init (data) {
-		title(data.title);
-		answers(data.answers);
-		correct(data.correct);
+        self.title =data.question;
+        self.answer1 = data.answer1;
+        self.answer2 = data.answer2;
+        self.answer3 = data.answer3;
+        self.answer4 = data.answer4;
+        self.correct = data.correct;
+        self.explain1 = data.explain1;
+        self.explain2 = data.explain2;
+        self.explain3 = data.explain3;
+        self.explain4 = data.explain4;
+        self.image1 = data.image1;
+        self.image2 = data.image2;
+        self.image3 = data.image3;
+        self.image4 = data.image4;
+        self.page_reference = data.page_reference;
 	}
 
-	return {
-		init: init,
-		title: title,
-		answers: answers,
-		correct: correct,
-		index: index
-	}
+	this.init = init;
+    this.index = index;
+    this.title = title;
+    this.answer1 = answer1;
+    this.answer2 = answer2;
+    this.answer3 = answer3;
+    this.answer4 = answer4;
+    this.correct = correct;
+    this.explain1 = explain1;
+    this.explain2 = explain2;
+    this.explain3 = explain3;
+    this.explain4 = explain4;
+    this.image1 = image1;
+    this.image2 = image2;
+    this.image3 = image3;
+    this.image4 = image4;
+    this.page_reference = page_reference;
+    this.marked = marked;
 };
-
-MK.vm.loadQuestions = function  (onSuccess, onFailure) {
-	
-}

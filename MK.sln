@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MK.Service", "MK.Service\MK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MK.WindowsServiceHost", "Mk.WindowsServiceHost\MK.WindowsServiceHost.csproj", "{FF99C2EF-1B17-438A-9072-3F664B4BAD9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MK.Tests", "MK.Tests\MK.Tests.csproj", "{F2F8B9CE-C4AA-4E8F-A947-CDD679E1CFC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FF99C2EF-1B17-438A-9072-3F664B4BAD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF99C2EF-1B17-438A-9072-3F664B4BAD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF99C2EF-1B17-438A-9072-3F664B4BAD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2F8B9CE-C4AA-4E8F-A947-CDD679E1CFC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F8B9CE-C4AA-4E8F-A947-CDD679E1CFC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F8B9CE-C4AA-4E8F-A947-CDD679E1CFC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F8B9CE-C4AA-4E8F-A947-CDD679E1CFC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

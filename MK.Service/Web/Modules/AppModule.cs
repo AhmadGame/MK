@@ -14,7 +14,6 @@ namespace MK.Service.Web.Modules
             Get["admin.html"] = _ => View["Web/Views/App/admin.html"];
 
             Post["/question"] = _ => service.SaveQuestion(this.Bind());
-
             Get["/questions/{number}"] = p => service.GetQuestions(p.number);
         }
     }
