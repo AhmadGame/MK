@@ -3,6 +3,14 @@ body {
     padding-bottom: 20px;
 }
 
+.question {
+    height: 200px;
+}
+
+.answers {
+    height: 300px;
+}
+
 
 
 

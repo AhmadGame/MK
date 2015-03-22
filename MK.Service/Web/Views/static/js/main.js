@@ -2,17 +2,20 @@
 var MK = MK || {};
 MK.vm = {};
 
-MK.vm.questions = function () {
+MK.vm.Questions = function () {
     var self = this;
     var questions,
         activeIndex = ko.observable(0),
         activeQuestion = ko.observable(null),
         nextQuestion = ko.observable(null),
         previousQuestion = ko.observable(null),
-        settingsVisible = ko.observeable(true),
-        numberOfQuestions = ko.observable(0);
+        settingsVisible = ko.observable(true),
+        numberOfQuestions = ko.observable(10),
+        done = ko.observable(false);
 
     function next() {
+        activeQuestion().userAnswer(getUserAnswer());
+
         if (!self.nextQuestion()) {
             return;
         }
@@ -21,6 +24,18 @@ MK.vm.questions = function () {
         self.activeQuestion(nextQuestion());
         self.activeIndex(nextQuestion().index);
         self.nextQuestion(self.questions[activeIndex() + 1]);
+    }
+
+    function getUserAnswer() {
+        if (document.getElementById('a1').checked) {
+            return "1";
+        } else if (document.getElementById('a2').checked) {
+            return "2";
+        } else if (document.getElementById('a3').checked) {
+            return "3";
+        } else {
+            return "4";
+        }
     }
 
     function prev() {
@@ -39,7 +54,7 @@ MK.vm.questions = function () {
     }
 
     function mark() {
-        self.activeQuestion().marked = true;
+        self.activeQuestion().marked(true);
     }
 
     function init(data) {
@@ -58,9 +73,20 @@ MK.vm.questions = function () {
         self.nextQuestion(self.questions[activeIndex() + 1]);
     }
 
-    MK.server.getJson('/questions/5', init, function onFailure() {
-        document.location.href = './fail.html';
-    });
+    function takeTest() {
+        if (numberOfQuestions() <= 0) {
+            window.alert("Ange antalet frågor du vill besvara.");
+            return;
+        }
+        settingsVisible(false);
+        MK.server.getJson('/questions/' + numberOfQuestions(), init, function onFailure() {
+            document.location.href = './fail.html';
+        });
+    }
+
+    function correctTest() {
+        done(true);
+    }
 
     this.questions = questions;
     this.activeQuestion = activeQuestion;
@@ -70,7 +96,11 @@ MK.vm.questions = function () {
     this.next = next;
     this.prev = prev;
     this.mark = mark;
-
+    this.settingsVisible = settingsVisible;
+    this.numberOfQuestions = numberOfQuestions;
+    this.takeTest = takeTest;
+    this.done = done;
+    this.correctTest = correctTest;
 };
 
 MK.vm.question = function () {
@@ -90,11 +120,13 @@ MK.vm.question = function () {
         image2,
         image3,
         image4,
-        page_reference,
-        marked;
+        page_reference;
+
+    var marked = ko.observable(false);
+    var userAnswer = ko.observable("0");
 	
 	function init (data) {
-        self.title =data.question;
+        self.title = data.question;
         self.answer1 = data.answer1;
         self.answer2 = data.answer2;
         self.answer3 = data.answer3;
@@ -129,4 +161,5 @@ MK.vm.question = function () {
     this.image4 = image4;
     this.page_reference = page_reference;
     this.marked = marked;
+    this.userAnswer = userAnswer;
 };

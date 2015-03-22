@@ -43,27 +43,33 @@
             </div>
         </div>
     </nav>
-    <!--ko if: settingsVisible()-->
+    <!--ko if: settingsVisible() && !done();-->
     <div id="Settings" class="jumbotron">
-        <div class="container">
+        <div id="Settings" class="container">
             <h4>Hur många frågor vill du besvara?</h4>
-            <input type="number" class="form-control" placeholder="5">
+            <div class="row-fluid">
+                <form class="form-inline">
+                    <input type="number" class="form-control" data-bind="value: numberOfQuestions">
+                    <button type="submit" class="btn btn-primary" data-bind="click: takeTest">Go!</button>
+                </form>
+            </div>
         </div>
     </div>
     <!-- /ko-->
-    <!--ko if: activeQuestion()-->
-    <div id="Question" class="jumbotron">
+    <!--ko if: !settingsVisible() && !done() && activeQuestion()-->
+    <div id="Question" class="jumbotron question">
         <div class="container">
+            <h4 data-bind="text: 'Fråga: ' + (activeIndex() + 1) + ' / ' + numberOfQuestions()"></h4>
             <h3 data-bind="text: activeQuestion().title"></h3>
         </div>
     </div>
 
     <div id="Answers" class="container">
-        <div class="radio">
+        <div class="radio answers">
             <!--ko if: activeQuestion().answer1-->
             <p>
                 <label>
-                    <input type="radio" name="optradio" value="answer1" >
+                    <input id="a1" type="radio" name="optradio" value="1" checked="">
                     <span data-bind="text: activeQuestion().answer1"></span>
                 </label>
             </p>
@@ -71,7 +77,7 @@
             <!--ko if: activeQuestion().answer2-->
             <p>
                 <label>
-                    <input type="radio" name="optradio">
+                    <input id="a2" type="radio" name="optradio" value="2">
                     <span data-bind="text: activeQuestion().answer2"></span>
                 </label>
             </p>
@@ -79,7 +85,7 @@
             <!--ko if: activeQuestion().answer3-->
             <p>
                 <label>
-                    <input type="radio" name="optradio">
+                    <input id="a3" type="radio" name="optradio" value="3">
                     <span data-bind="text: activeQuestion().answer3"></span>
                 </label>
             </p>
@@ -87,7 +93,7 @@
             <!--ko if: activeQuestion().answer4-->
             <p>
                 <label>
-                    <input type="radio" name="optradio">
+                    <input id="a4" type="radio" name="optradio" value="4">
                     <span data-bind="text: activeQuestion().answer4"></span>
                 </label>
             </p>
@@ -96,21 +102,53 @@
         <hr>
         <div id="Actions" class="row-centered">
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary" data-bind="click: window.bajs.prev">&laquo; Tillbaka</button>
+                <button type="button" class="btn btn-primary" data-bind="click: prev">&laquo; Tillbaka</button>
             </div>
-            <div class="col-md-3">
+            <!--<div class="col-md-3">
                 <button type="button" class="btn btn-info" data-bind="click: mark">Markera</button>
-            </div>
+            </div>-->
+            <!--ko if: numberOfQuestions() > activeIndex() + 1-->
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary" data-bind="click: window.bajs.next">Nästa &raquo;</button>
+                <button type="button" class="btn btn-primary" data-bind="click: next">Nästa &raquo;</button>
             </div>
+            <!-- /ko-->
+            <!--ko if: activeIndex() + 1 >= numberOfQuestions()-->
+            <div class="col-md-3">
+                <button type="button" class="btn btn-success" data-bind="click: correctTest">Rätta &raquo;</button>
+            </div>
+            <!-- /ko-->
         </div>
     </div>
     <!-- /ko-->
-
+    
+    <!-- ko if: !settingsVisible() && done()-->
+    <div class="container">
+        <table class="table">
+            <caption>Så här har du svarat</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Fråga</th>
+                    <th>Ditt svar</th>
+                    <th>Rätt svar</th>
+                    <th>Anledning</th>
+                </tr>
+            </thead>
+            <!--ko foreach: questions-->
+            <tr>
+                <th data-bind="text: index"></th>
+                <th data-bind="text: title"></th>
+                <th data-bind="text: index"></th>
+                <th data-bind="text: index"></th>
+                <th data-bind="text: index"></th>
+            </tr>
+            <!-- /ko-->
+        </table>
+    </div>
+    <!-- /ko-->
     <script>
         $(function () {
-            window.bajs = new MK.vm.questions();
+            window.bajs = new MK.vm.Questions();
             ko.applyBindings(window.bajs);
         });
     </script>
