@@ -4,7 +4,7 @@ MK.vm = {};
 
 MK.vm.Questions = function () {
     var self = this;
-    var questions,
+    var questions = ko.observable([]),
         activeIndex = ko.observable(0),
         activeQuestion = ko.observable(null),
         nextQuestion = ko.observable(null),
@@ -14,7 +14,7 @@ MK.vm.Questions = function () {
         done = ko.observable(false);
 
     function next() {
-        activeQuestion().userAnswer(getUserAnswer());
+        activeQuestion().setAnswer(getUserAnswer());
 
         if (!self.nextQuestion()) {
             return;
@@ -23,7 +23,7 @@ MK.vm.Questions = function () {
         self.previousQuestion(activeQuestion());
         self.activeQuestion(nextQuestion());
         self.activeIndex(nextQuestion().index);
-        self.nextQuestion(self.questions[activeIndex() + 1]);
+        self.nextQuestion(self.questions()[activeIndex() + 1]);
     }
 
     function getUserAnswer() {
@@ -47,7 +47,7 @@ MK.vm.Questions = function () {
         self.activeQuestion(previousQuestion());
         self.activeIndex(previousQuestion().index);
         if (activeIndex() >= 1) {
-            self.previousQuestion(self.questions[activeIndex() - 1]);
+            self.previousQuestion(self.questions()[activeIndex() - 1]);
         } else {
             previousQuestion(null);
         }
@@ -58,19 +58,19 @@ MK.vm.Questions = function () {
     }
 
     function init(data) {
-        self.questions = _.map(data, function(questionJson) {
+        self.questions(_.map(data, function(questionJson) {
             var question = new MK.vm.question();
             question.init(questionJson);
             return question;
-        });
+        }));
 
-        for (var i = 0; i < self.questions.length; i++) {
-            self.questions[i].index = i;
+        for (var i = 0; i < self.questions().length; i++) {
+            self.questions()[i].index = i;
         }
 
         self.activeIndex(0);
-        self.activeQuestion(self.questions[activeIndex()]);
-        self.nextQuestion(self.questions[activeIndex() + 1]);
+        self.activeQuestion(self.questions()[activeIndex()]);
+        self.nextQuestion(self.questions()[activeIndex() + 1]);
     }
 
     function takeTest() {
@@ -85,6 +85,7 @@ MK.vm.Questions = function () {
     }
 
     function correctTest() {
+        activeQuestion().setAnswer(getUserAnswer());
         done(true);
     }
 
@@ -120,10 +121,13 @@ MK.vm.question = function () {
         image2,
         image3,
         image4,
-        page_reference;
+        page_reference,
+        answeredCorrectly = false;
 
     var marked = ko.observable(false);
-    var userAnswer = ko.observable("0");
+    var correctAnswerText = ko.observable("");
+    var userAnswer = ko.observable("");
+    var explination = ko.observable("");
 	
 	function init (data) {
         self.title = data.question;
@@ -142,6 +146,28 @@ MK.vm.question = function () {
         self.image4 = data.image4;
         self.page_reference = data.page_reference;
 	}
+
+    function setAnswer(answer) {
+        if (answer === self.correct) {
+            self.answeredCorrectly = true;
+            self.correctAnswerText = "Du svarade rätt";
+        }
+
+        if (answer === "1") {
+            self.explination(self.explain1);
+            self.userAnswer(self.answer1);
+        } else if (answer === "2") {
+            self.explination(self.explain2);
+            self.userAnswer(self.answer2);
+        } else if (answer === "3") {
+            self.explination(self.explain3);
+            self.userAnswer(self.answer3);
+        } else if (answer === "4") {
+            self.explination(self.explain4);
+            self.userAnswer(self.answer4);
+        }
+
+    }
 
 	this.init = init;
     this.index = index;
@@ -162,4 +188,8 @@ MK.vm.question = function () {
     this.page_reference = page_reference;
     this.marked = marked;
     this.userAnswer = userAnswer;
+    this.correctAnswerText = correctAnswerText;
+    this.explination = explination;
+    this.setAnswer = setAnswer;
+    this.answeredCorrectly = answeredCorrectly;
 };

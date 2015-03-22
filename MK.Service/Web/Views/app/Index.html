@@ -119,9 +119,9 @@
             <!-- /ko-->
         </div>
     </div>
-    <!-- /ko-->
+    <!-- /ko -->
     
-    <!-- ko if: !settingsVisible() && done()-->
+    <!-- ko if: !settingsVisible() && done() -->
     <div class="container">
         <table class="table">
             <caption>Så här har du svarat</caption>
@@ -134,18 +134,20 @@
                     <th>Anledning</th>
                 </tr>
             </thead>
-            <!--ko foreach: questions-->
-            <tr>
-                <th data-bind="text: index"></th>
-                <th data-bind="text: title"></th>
-                <th data-bind="text: index"></th>
-                <th data-bind="text: index"></th>
-                <th data-bind="text: index"></th>
-            </tr>
-            <!-- /ko-->
+            <tbody>
+                <!-- ko foreach: questions() -->
+                <tr>
+                    <th data-bind="text: index"></th>
+                    <th data-bind="text: title"></th>
+                    <th data-bind="text: userAnswer()"></th>
+                    <th data-bind="text: correct"></th>
+                    <th data-bind="text: explination()"></th>
+                </tr>
+                <!-- /ko -->
+            </tbody>
         </table>
     </div>
-    <!-- /ko-->
+    <!-- /ko -->
     <script>
         $(function () {
             window.bajs = new MK.vm.Questions();
