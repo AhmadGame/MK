@@ -2,13 +2,15 @@
 var MK = MK || {};
 MK.vm = {};
 
-MK.vm.loadQuestions = function () {
+MK.vm.questions = function () {
     var self = this;
     var questions,
         activeIndex = ko.observable(0),
-    	activeQuestion = ko.observable(null),
+        activeQuestion = ko.observable(null),
         nextQuestion = ko.observable(null),
-        previousQuestion = ko.observable(null);
+        previousQuestion = ko.observable(null),
+        settingsVisible = ko.observeable(true),
+        numberOfQuestions = ko.observable(0);
 
     function next() {
         if (!self.nextQuestion()) {

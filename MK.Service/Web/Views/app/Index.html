@@ -43,7 +43,14 @@
             </div>
         </div>
     </nav>
-    
+    <!--ko if: settingsVisible()-->
+    <div id="Settings" class="jumbotron">
+        <div class="container">
+            <h4>Hur många frågor vill du besvara?</h4>
+            <input type="number" class="form-control" placeholder="5">
+        </div>
+    </div>
+    <!-- /ko-->
     <!--ko if: activeQuestion()-->
     <div id="Question" class="jumbotron">
         <div class="container">
@@ -103,7 +110,7 @@
 
     <script>
         $(function () {
-            window.bajs = new MK.vm.loadQuestions();
+            window.bajs = new MK.vm.questions();
             ko.applyBindings(window.bajs);
         });
     </script>
