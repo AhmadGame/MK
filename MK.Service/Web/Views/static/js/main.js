@@ -11,7 +11,10 @@ MK.vm.Questions = function () {
         previousQuestion = ko.observable(null),
         settingsVisible = ko.observable(true),
         numberOfQuestions = ko.observable(10),
-        done = ko.observable(false);
+        done = ko.observable(false),
+        doneDone = ko.observable(false),
+        anyMistakes = ko.observable(false),
+        result = ko.observable('');
 
     function next() {
         activeQuestion().setAnswer(getUserAnswer());
@@ -27,15 +30,25 @@ MK.vm.Questions = function () {
     }
 
     function getUserAnswer() {
-        if (document.getElementById('a1').checked) {
+        var a1 = document.getElementById('a1');
+        var a2 = document.getElementById('a2');
+        var a3 = document.getElementById('a3');
+        var a4 = document.getElementById('a4');
+
+        if (a1 && a1.checked) {
+            a1.checked = false;
             return "1";
-        } else if (document.getElementById('a2').checked) {
+        } else if (a2 && a2.checked) {
+            a2.checked = false;
             return "2";
-        } else if (document.getElementById('a3').checked) {
+        } else if (a3 && a3.checked) {
+            a3.checked = false;
             return "3";
-        } else {
+        } else if (a4 && a4.checked) {
+            a4.checked = false;
             return "4";
         }
+        return "0";
     }
 
     function prev() {
@@ -46,10 +59,10 @@ MK.vm.Questions = function () {
         self.nextQuestion(activeQuestion());
         self.activeQuestion(previousQuestion());
         self.activeIndex(previousQuestion().index);
-        if (activeIndex() >= 1) {
-            self.previousQuestion(self.questions()[activeIndex() - 1]);
+        if (self.activeIndex() >= 1) {
+            self.previousQuestion(self.questions()[self.activeIndex() - 1]);
         } else {
-            previousQuestion(null);
+            self.previousQuestion(null);
         }
     }
 
@@ -57,8 +70,50 @@ MK.vm.Questions = function () {
         self.activeQuestion().marked(true);
     }
 
+    function takeTest() {
+        if (self.numberOfQuestions() <= 0) {
+            window.alert("Ange antalet frågor du vill besvara.");
+            return;
+        }
+        self.settingsVisible(false);
+        MK.server.getJson('/questions/' + numberOfQuestions(), init, function onFailure() {
+            document.location.href = './fail.html';
+        });
+    }
+
+    function showSummary() {
+        self.activeQuestion().setAnswer(getUserAnswer());
+        self.done(true);
+    }
+
+    function correctTest() {
+        self.anyMistakes(_.any(questions(), function(q) {
+            return !q.answeredCorrectly;
+        }));
+        var correctCount = _.dropWhile(questions(), function (q) {
+            return !q.answeredCorrectly;
+        }).length;
+
+        var correctPercent = (correctCount / questions().length) * 100;
+        if (correctPercent > 80) {
+            result("Du är Godkänd! Du hade" + correctPercent + "% rätt!");
+        } else {
+            result("Du är inte Godkänd! :( Men du hade " + correctPercent + "% rätt");
+        }
+
+        self.done(false);
+        self.doneDone(true);
+    }
+
+    function backToQuestions() {
+        self.done(false);
+        self.activeIndex(0);
+        self.activeQuestion(self.questions()[activeIndex()]);
+        self.nextQuestion(self.questions()[activeIndex() + 1]);
+    }
+
     function init(data) {
-        self.questions(_.map(data, function(questionJson) {
+        self.questions(_.map(data, function (questionJson) {
             var question = new MK.vm.question();
             question.init(questionJson);
             return question;
@@ -73,22 +128,6 @@ MK.vm.Questions = function () {
         self.nextQuestion(self.questions()[activeIndex() + 1]);
     }
 
-    function takeTest() {
-        if (numberOfQuestions() <= 0) {
-            window.alert("Ange antalet frågor du vill besvara.");
-            return;
-        }
-        settingsVisible(false);
-        MK.server.getJson('/questions/' + numberOfQuestions(), init, function onFailure() {
-            document.location.href = './fail.html';
-        });
-    }
-
-    function correctTest() {
-        activeQuestion().setAnswer(getUserAnswer());
-        done(true);
-    }
-
     this.questions = questions;
     this.activeQuestion = activeQuestion;
     this.activeIndex = activeIndex;
@@ -101,7 +140,12 @@ MK.vm.Questions = function () {
     this.numberOfQuestions = numberOfQuestions;
     this.takeTest = takeTest;
     this.done = done;
+    this.doneDone = doneDone;
     this.correctTest = correctTest;
+    this.showSummary = showSummary;
+    this.backToQuestions = backToQuestions;
+    this.anyMistakes = anyMistakes;
+    this.result = result;
 };
 
 MK.vm.question = function () {
@@ -122,10 +166,10 @@ MK.vm.question = function () {
         image3,
         image4,
         page_reference,
+        correctAnswer,
         answeredCorrectly = false;
 
     var marked = ko.observable(false);
-    var correctAnswerText = ko.observable("");
     var userAnswer = ko.observable("");
     var explination = ko.observable("");
 	
@@ -140,17 +184,38 @@ MK.vm.question = function () {
         self.explain2 = data.explain2;
         self.explain3 = data.explain3;
         self.explain4 = data.explain4;
-        self.image1 = data.image1;
-        self.image2 = data.image2;
-        self.image3 = data.image3;
-        self.image4 = data.image4;
+
+	    if (data.image1) {
+	        self.image1 = "static/img/" + data.image1;
+	    }
+	    if (data.image2) {
+	        self.image2 = "static/img/" + data.image2;
+	    }
+	    if (data.image3) {
+	        self.image3 = "static/img/" + data.image3;
+	    }
+	    if (data.image4) {
+	        self.image4 = "static/img/" + data.image4;
+	    }
         self.page_reference = data.page_reference;
+
+        if (self.correct === "1") {
+            self.correctAnswer = self.answer1;
+        }
+        else if (self.correct === "2") {
+            self.correctAnswer = self.answer2;
+        }
+        else if (self.correct === "3") {
+            self.correctAnswer = self.answer3;
+        }
+        else if (self.correct === "4") {
+            self.correctAnswer = self.answer4;
+        }
 	}
 
     function setAnswer(answer) {
         if (answer === self.correct) {
             self.answeredCorrectly = true;
-            self.correctAnswerText = "Du svarade rätt";
         }
 
         if (answer === "1") {
@@ -165,6 +230,8 @@ MK.vm.question = function () {
         } else if (answer === "4") {
             self.explination(self.explain4);
             self.userAnswer(self.answer4);
+        } else {
+            self.userAnswer("Du svarade inte på frågan.");
         }
 
     }
@@ -188,7 +255,7 @@ MK.vm.question = function () {
     this.page_reference = page_reference;
     this.marked = marked;
     this.userAnswer = userAnswer;
-    this.correctAnswerText = correctAnswerText;
+    this.correctAnswer = correctAnswer;
     this.explination = explination;
     this.setAnswer = setAnswer;
     this.answeredCorrectly = answeredCorrectly;
