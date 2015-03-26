@@ -2,7 +2,6 @@
 {
     public class Question
     {
-        public int Id { get; set; }
         // ReSharper disable InconsistentNaming
         public string question { get; set; }
         public string answer1 { get; set; }

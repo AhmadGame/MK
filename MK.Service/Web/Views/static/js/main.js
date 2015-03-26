@@ -87,7 +87,7 @@ MK.vm.Questions = function () {
     }
 
     function correctTest() {
-        self.anyMistakes(_.any(questions(), function(q) {
+        self.anyMistakes(_.any(questions(), function (q) {
             return !q.answeredCorrectly;
         }));
         var correctCount = _.dropWhile(questions(), function (q) {
@@ -150,30 +150,30 @@ MK.vm.Questions = function () {
 
 MK.vm.question = function () {
     var self = this;
-    var index,
-        title,
-        answer1,
-        answer2,
-        answer3,
-        answer4,
-        correct,
-        explain1,
-        explain2,
-        explain3,
-        explain4,
-        image1,
-        image2,
-        image3,
-        image4,
-        page_reference,
-        correctAnswer,
+    var index = 0,
+        title = "",
+        answer1 = "",
+        answer2 = "",
+        answer3 = "",
+        answer4 = "",
+        correct = "",
+        explain1 = "",
+        explain2 = "",
+        explain3 = "",
+        explain4 = "",
+        image1 = "",
+        image2 = "",
+        image3 = "",
+        image4 = "",
+        page_reference = "",
+        correctAnswer = "",
         answeredCorrectly = false;
 
     var marked = ko.observable(false);
     var userAnswer = ko.observable("");
     var explination = ko.observable("");
-	
-	function init (data) {
+
+    function init(data) {
         self.title = data.question;
         self.answer1 = data.answer1;
         self.answer2 = data.answer2;
@@ -185,18 +185,18 @@ MK.vm.question = function () {
         self.explain3 = data.explain3;
         self.explain4 = data.explain4;
 
-	    if (data.image1) {
-	        self.image1 = "static/img/" + data.image1;
-	    }
-	    if (data.image2) {
-	        self.image2 = "static/img/" + data.image2;
-	    }
-	    if (data.image3) {
-	        self.image3 = "static/img/" + data.image3;
-	    }
-	    if (data.image4) {
-	        self.image4 = "static/img/" + data.image4;
-	    }
+        if (data.image1) {
+            self.image1 = "static/img/" + data.image1;
+        }
+        if (data.image2) {
+            self.image2 = "static/img/" + data.image2;
+        }
+        if (data.image3) {
+            self.image3 = "static/img/" + data.image3;
+        }
+        if (data.image4) {
+            self.image4 = "static/img/" + data.image4;
+        }
         self.page_reference = data.page_reference;
 
         if (self.correct === "1") {
@@ -211,7 +211,7 @@ MK.vm.question = function () {
         else if (self.correct === "4") {
             self.correctAnswer = self.answer4;
         }
-	}
+    }
 
     function setAnswer(answer) {
         if (answer === self.correct) {
@@ -236,7 +236,7 @@ MK.vm.question = function () {
 
     }
 
-	this.init = init;
+    this.init = init;
     this.index = index;
     this.title = title;
     this.answer1 = answer1;
@@ -260,3 +260,70 @@ MK.vm.question = function () {
     this.setAnswer = setAnswer;
     this.answeredCorrectly = answeredCorrectly;
 };
+
+MK.vm.Admin = function () {
+    var title = ko.observable(""),
+        answer1 = ko.observable(""),
+        answer2 = ko.observable(""),
+        answer3 = ko.observable(""),
+        answer4 = ko.observable(""),
+        correct = ko.observable(""),
+        explain1 = ko.observable(""),
+        explain2 = ko.observable(""),
+        explain3 = ko.observable(""),
+        explain4 = ko.observable(""),
+        image1 = ko.observable(""),
+        image2 = ko.observable(""),
+        image3 = ko.observable(""),
+        image4 = ko.observable(""),
+        page_reference = ko.observable("");
+
+    function save() {
+        var q = {
+            question: title(),
+            answer1: answer1(),
+            answer2: answer2(),
+            answer3: answer3(),
+            answer4: answer4(),
+            correct: correct(),
+            explain1: explain1(),
+            explain2: explain2(),
+            explain3: explain3(),
+            explain4: explain4(),
+            image1: image1(),
+            image2: image2(),
+            image3: image3(),
+            image4: image4(),
+            page_reference: page_reference(),
+        }
+
+        MK.server.postJson('/question', q, function onSuccess() {
+            document.location.reload();
+        }, function onFailure() {
+            var msg = response.statusText + "\n\n";
+            msg += "Failed to save question";
+
+            window.alert(msg);
+            document.location.reload();
+        });
+    }
+
+    return {
+        title: title,
+        answer1: answer1,
+        answer2: answer2,
+        answer3: answer3,
+        answer4: answer4,
+        correct: correct,
+        explain1: explain1,
+        explain2: explain2,
+        explain3: explain3,
+        explain4: explain4,
+        image1: image1,
+        image2: image2,
+        image3: image3,
+        image4: image4,
+        page_reference: page_reference,
+        save: save
+    }
+}

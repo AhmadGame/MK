@@ -12,12 +12,23 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="static/img/apple-touch-icon.png">
-
+    
+    <!-- css-->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="static/css/admin.css">
-
-    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    
+    <!--Vendor js-->
+    <script src="static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="static/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="static/js/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src='static/js/vendor/lodash.js'></script>
+    <script type='text/javascript' src='static/js/vendor/knockout-3.3.0.js'></script>
+    
+    <!--js-->
+    <script src="static/js/main.js"></script>
+    <script src="static/js/server.js"></script>
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -41,27 +52,27 @@
         <form>
             <div class="form-group">
                 <h4>Fråga</h4>
-                <input type="text" class="form-control" placeholder="Skriv in din fråga här">
+                <input type="text" data-bind="value: title" class="form-control" placeholder="Skriv in din fråga här">
             </div>
             <hr />
             <div class="form-group">
                 <h3>Svar</h3>
-                <input type="text" class="form-control" placeholder="Första alternativet">
-                <textarea class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                <input type="text" data-bind="value: answer1" class="form-control" placeholder="Första alternativet">
+                <textarea data-bind="value: explain1" class="form-control" rows="3" placeholder="Förklaring"></textarea>
                 <hr />
-                <input type="text" class="form-control" placeholder="Andra alternativet">
-                <textarea class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                <input type="text" data-bind="value: answer2" class="form-control" placeholder="Andra alternativet">
+                <textarea data-bind="value: explain2" class="form-control" rows="3" placeholder="Förklaring"></textarea>
                 <hr />
-                <input type="text" class="form-control" placeholder="Tredje alternativet">
-                <textarea class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                <input type="text" data-bind="value: answer3" class="form-control" placeholder="Tredje alternativet">
+                <textarea data-bind="value: explain3" class="form-control" rows="3" placeholder="Förklaring"></textarea>
                 <hr />
-                <input type="text" class="form-control" placeholder="Fjärde alternativet">
-                <textarea class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                <input type="text" data-bind="value: answer4" class="form-control" placeholder="Fjärde alternativet">
+                <textarea data-bind="value: explain4" class="form-control" rows="3" placeholder="Förklaring"></textarea>
             </div>
             <hr />
             <div class="form-group">
                 <h3>Rätt svar</h3>
-                <input type="number" class="form-control" placeholder="Nr på rätt svar">
+                <input type="number" data-bind="value: correct" class="form-control" placeholder="Nr på rätt svar">
                 <hr />
             </div>
             <div class="form-group">
@@ -81,14 +92,15 @@
                 <input type="file" id="picture4">
             </div>
             <hr />
-            <button type="submit" class="btn btn-success col-md-12">Spara</button>
+            <button type="submit" class="btn btn-success col-md-12" data-bind="click: save">Spara</button>
         </form>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="static/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-    <script src="static/js/vendor/bootstrap.min.js"></script>
-    <script src="static/js/main.js"></script>
-    <script type="text/javascript" src='static/js/vendor/lodash.js'></script>
-    <script type='text/javascript' src='static/js/vendor/knockout-3.3.0.js'></script>
+    <script>
+    $(function () {
+        window.bajs = new MK.vm.Admin();
+        ko.applyBindings(window.bajs);
+    });
+    </script>
+
 </body>
 </html>

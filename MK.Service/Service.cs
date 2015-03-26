@@ -29,7 +29,7 @@ namespace MK.Service
         {
             using (var r = new StreamReader("questions.json"))
             {
-                string json = r.ReadToEnd();
+                var json = r.ReadToEnd();
                 _questions = JsonConvert.DeserializeObject<List<Question>>(json);
             }
         }
@@ -37,6 +37,7 @@ namespace MK.Service
         public void SaveQuestion(Question question)
         {
             _questions.Add(question);
+            var json = JsonConvert.SerializeObject(_questions);
         }
 
         public List<Question> GetQuestions(int number)
@@ -45,14 +46,14 @@ namespace MK.Service
             var random = new Random();
             for (int i = 0; i < number; i++)
             {
-                Question q;
+                Question question;
                 do
                 {
                     int index = random.Next(_questions.Count);
-                    q = _questions[index];
-                } while (questions.Contains(q));
+                    question = _questions[index];
+                } while (questions.Contains(question));
 
-                questions.Add(q);
+                questions.Add(question);
             }
             return questions;
         }
