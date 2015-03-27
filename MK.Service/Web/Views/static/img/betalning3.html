@@ -1,0 +1,64 @@
+  <html>
+
+    <head>
+      <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+	<title>Betala f&ouml;r proven/teoribok - Postf&ouml;rskottsbetalning</title>
+    </head>
+
+    <body bgcolor=moccasin>
+      <font face=verdana,arial size=2>
+      <blockquote>
+      <h2>Postförskottsbetalning</h2>
+	Fyll i formuläret, så skickas boken (Liber, F&ouml;rarutbildning), ditt lösenord och användarnamn via postförskott.<br> 
+	Du kan &auml;ven beställa endast l&ouml;senord och användarnamn (dina kontouppgifter).<br>
+	Du kan ocks&aring beställa enbart boken (Liber F&ouml;rarutbildning).
+	<br><br>
+		<b><font color="red">OBS! Vi s&auml;ljer endast Libers teoribok "F&ouml;rarutbildning".<br>
+		Om du best&auml;ller bok via oss &auml;r det klokt att ange att<br>
+		sidh&auml;nvisningarna ska ske till den boken.</font></b><br>
+              <b>Jag vill ha:</b>
+	      <form name="Postförskottsbetalning" action="/cgi/order.cgi" method="post"
+		    enctype="application/x-www-form-urlencoded">
+		<input type="hidden" name="op" value="op_firstorder">
+		<select name="artikel" size="1">
+		  <option value="Teoriboken + konto">Boken "F&ouml;rarutbildning" (Liber) + l&ouml;senord för proven (340:-)
+		    <option value="Endast teoriboken">Endast boken "F&ouml;rarutbildning" (Liber) (215 :-)
+		      <option value="Konto">Endast l&ouml;senord för proven (125:-)
+		</select><br>
+		<i>(postf&ouml;rskottsavgift tillkommer, fn. 28:- + porto)</i>
+		<p>Antal
+		  <input type="text" name="antal" size="4" maxlength="5" value="1 st"></p>
+		<table border="0" cellpadding="0" cellspacing="0" width="500">
+		  <tr><td><b><font face=verdana,arial size=2>För- och efternamn</font></b></td></tr>
+		  <tr><td><input type="text" name="namn" size="25" maxlength="50"></td></tr>
+		  <tr><td><b><font face=verdana,arial size=2>Adress</font></b></td></tr>
+		  <tr><td><input type="text" name="adress" size="25" maxlength="50"></td></tr>
+		  <tr><td><b><font face=verdana,arial size=2>Postnummer</font></b></td></tr>
+		  <tr><td><input type="text" name="postnr" size="25" maxlength="50"></td></tr>
+		  <tr><td><b><font face=verdana,arial size=2>Ort</font></b></td></tr>
+		  <tr><td><input type="text" name="stad" size="25" maxlength="50"></td></tr>
+		  <tr><td><b><font face=verdana,arial size=2>E-post</font></b></td></tr>
+		  <tr><td><input type="text" name="email" size="25" maxlength="50"></td></tr>
+		  <tr><td><b><font face=verdana,arial size=2>Behörighet</font></b></td></tr>
+		  <tr><td><select name="behorighet">
+			<option value="A">A (ej &auml;nnu tillg&auml;nglig)
+			<option value="B" selected>B
+			<option value="Taxi">Taxi (ej &auml;nnu tillg&auml;nglig)
+		      </select></td></tr>
+       	          <tr><td><b><font face=verdana,arial size=2>Sidhänvisningar till läromedel
+			    </font></b></td></tr>
+		  <tr><td><select name="bok">
+			<option value="1">Körkortsboken (STR)
+			<option value="2">Du och jag i trafiken (TRU)
+			<option value="3">Förarutbildning (Liber)
+			  </select>
+		</td></tr>
+		</table>
+		<p><input type="submit" value="Gå vidare med best&auml;llning"></p>
+	      </form>
+	      
+		
+      </font>
+    </body>
+
+  </html>

@@ -10,13 +10,29 @@ namespace MK.Service
     {
         private readonly WebHost _webHost;
         private List<Question> _questions;
+        private int _added;
+        private const string JsonFilePath = "questions.json";
+
         public Service()
         {
             _webHost = new WebHost();            
         }
         public void Dispose()
         {
+            SaveJson();
             _webHost.Dispose();
+        }
+
+        private void SaveJson()
+        {
+            var json = JsonConvert.SerializeObject(_questions);
+            if (File.Exists(JsonFilePath))
+            {
+                File.Copy(JsonFilePath, JsonFilePath + ".bak", overwrite: true);
+                File.Delete(JsonFilePath);
+            }
+
+            File.WriteAllText(JsonFilePath, json);
         }
 
         public void Start()
@@ -27,7 +43,7 @@ namespace MK.Service
 
         public void LoadJson()
         {
-            using (var r = new StreamReader("questions.json"))
+            using (var r = new StreamReader(JsonFilePath))
             {
                 var json = r.ReadToEnd();
                 _questions = JsonConvert.DeserializeObject<List<Question>>(json);
@@ -37,7 +53,12 @@ namespace MK.Service
         public void SaveQuestion(Question question)
         {
             _questions.Add(question);
-            var json = JsonConvert.SerializeObject(_questions);
+            _added++;
+
+            if (_added >= 10)
+            {
+                SaveJson();
+            }
         }
 
         public List<Question> GetQuestions(int number)
