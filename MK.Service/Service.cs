@@ -8,15 +8,16 @@ namespace MK.Service
 {
     public class Service : IDisposable
     {
-        private readonly WebHost _webHost;
-        private List<Question> _questions;
-        private int _added;
         private const string JsonFilePath = "questions.json";
+        private readonly WebHost _webHost;
+        private int _added;
+        private List<Question> _questions;
 
         public Service()
         {
-            _webHost = new WebHost();            
+            _webHost = new WebHost();
         }
+
         public void Dispose()
         {
             SaveJson();
@@ -25,10 +26,10 @@ namespace MK.Service
 
         private void SaveJson()
         {
-            var json = JsonConvert.SerializeObject(_questions);
+            string json = JsonConvert.SerializeObject(_questions);
             if (File.Exists(JsonFilePath))
             {
-                File.Copy(JsonFilePath, JsonFilePath + ".bak", overwrite: true);
+                File.Copy(JsonFilePath, JsonFilePath + ".bak", true);
                 File.Delete(JsonFilePath);
             }
 
@@ -45,14 +46,32 @@ namespace MK.Service
         {
             using (var r = new StreamReader(JsonFilePath))
             {
-                var json = r.ReadToEnd();
+                string json = r.ReadToEnd();
                 _questions = JsonConvert.DeserializeObject<List<Question>>(json);
             }
         }
 
         public void SaveQuestion(Question question)
         {
-            _questions.Add(question);
+            //Func<Question, Question> fixPathsFunc = q =>
+            //{
+            //    q.image1 = Path.GetFileName(q.image1);
+            //    q.image2 = Path.GetFileName(q.image2);
+            //    q.image3 = Path.GetFileName(q.image3);
+            //    q.image4 = Path.GetFileName(q.image4);
+            //    return q;
+            //};
+
+            //_questions.Add(fixPathsFunc(question));
+
+            _questions.Add(new Func<Question, Question>(q =>
+            {
+                q.image1 = Path.GetFileName(q.image1);
+                q.image2 = Path.GetFileName(q.image2);
+                q.image3 = Path.GetFileName(q.image3);
+                q.image4 = Path.GetFileName(q.image4);
+                return q;
+            })(question));
             _added++;
 
             if (_added >= 10)
