@@ -76,8 +76,49 @@ MK.vm.Questions = function () {
             return;
         }
         self.settingsVisible(false);
-        MK.server.getJson('/questions/' + numberOfQuestions(), init, function onFailure() {
+
+        getFromParse();
+        //getRandomFromParse();
+    }
+
+    function getFromParse() {
+        var q = Parse.Object.extend("question");
+        var query = new Parse.Query(q);
+        query.limit(numberOfQuestions());
+        query.find({
+          success: function(results) {
+            init(results);
+          },
+          error: function(error) {
+            //alert("Error: " + error.code + " " + error.message);
             document.location.href = './fail.html';
+          }
+        });
+    }
+
+    function getRandomFromParse() {
+        var q = Parse.Object.extend("question"),
+        count = (new Parse.Query(q)).count(), // total number of questions.
+        requestCount = numberOfQuestions(), // number of random cards that you want to query
+        query1, query2, randomQuery,
+        queries = [],
+        i;
+        for (i = 0; i < requestCount; i++) {
+            query1 = new Parse.Query(q);
+            query2 = new Parse.Query(q);
+            query1.skip(Math.floor(Math.random() * count));
+            query1.limit(1);
+            query2.matchesKeyInQuery("objectId", "objectId", query1);
+            queries.push(query2);
+        }
+        randomQuery = Parse.Query.or.apply(this, queries);
+        randomQuery.find({
+          success: function(results) {
+            init(results);
+          },
+          error: function(error) {
+            document.location.href = './fail.html';
+          }
         });
     }
 
@@ -112,10 +153,10 @@ MK.vm.Questions = function () {
         self.nextQuestion(self.questions()[activeIndex() + 1]);
     }
 
-    function init(data) {
-        self.questions(_.map(data, function (questionJson) {
+    function init(parseResult) {
+        self.questions(_.map(parseResult, function (parseObject) {
             var question = new MK.vm.question();
-            question.init(questionJson);
+            question.init(parseObject);
             return question;
         }));
 
@@ -156,7 +197,7 @@ MK.vm.question = function () {
         answer2 = "",
         answer3 = "",
         answer4 = "",
-        correct = "",
+        correct = 0,
         explain1 = "",
         explain2 = "",
         explain3 = "",
@@ -173,48 +214,48 @@ MK.vm.question = function () {
     var userAnswer = ko.observable("");
     var explination = ko.observable("");
 
-    function init(data) {
-        self.title = data.question;
-        self.answer1 = data.answer1;
-        self.answer2 = data.answer2;
-        self.answer3 = data.answer3;
-        self.answer4 = data.answer4;
-        self.correct = data.correct;
-        self.explain1 = data.explain1;
-        self.explain2 = data.explain2;
-        self.explain3 = data.explain3;
-        self.explain4 = data.explain4;
+    function init(parseObject) {
+        self.title = parseObject.get("title");
+        self.answer1 = parseObject.get("answer1");
+        self.answer2 = parseObject.get("answer2");
+        self.answer3 = parseObject.get("answer3");
+        self.answer4 = parseObject.get("answer4");
+        self.correct = parseObject.get("correct");
+        self.explain1 = parseObject.get("explain1");
+        self.explain2 = parseObject.get("explain2");
+        self.explain3 = parseObject.get("explain3");
+        self.explain4 = parseObject.get("explain4");
 
-        if (data.image1) {
-            self.image1 = "static/img/" + data.image1;
+        if (parseObject.get("image1")) {
+            self.image1 = "img/" + parseObject.get("image1");
         }
-        if (data.image2) {
-            self.image2 = "static/img/" + data.image2;
+        if (parseObject.get("image2")) {
+            self.image2 = "img/" + parseObject.get("image2");
         }
-        if (data.image3) {
-            self.image3 = "static/img/" + data.image3;
+        if (parseObject.get("image3")) {
+            self.image3 = "img/" + parseObject.get("image3");
         }
-        if (data.image4) {
-            self.image4 = "static/img/" + data.image4;
+        if (parseObject.get("image4")) {
+            self.image4 = "img/" + parseObject.get("image4");
         }
-        self.page_reference = data.page_reference;
+        self.page_reference = parseObject.get("page_reference");
 
-        if (self.correct === "1") {
+        if (self.correct === 1) {
             self.correctAnswer = self.answer1;
         }
-        else if (self.correct === "2") {
+        else if (self.correct === 2) {
             self.correctAnswer = self.answer2;
         }
-        else if (self.correct === "3") {
+        else if (self.correct === 3) {
             self.correctAnswer = self.answer3;
         }
-        else if (self.correct === "4") {
+        else if (self.correct === 4) {
             self.correctAnswer = self.answer4;
         }
     }
 
     function setAnswer(answer) {
-        if (answer === self.correct) {
+        if (parseInt(answer) === self.correct) {
             self.answeredCorrectly = true;
         }
 
@@ -267,7 +308,7 @@ MK.vm.Admin = function () {
         answer2 = ko.observable(""),
         answer3 = ko.observable(""),
         answer4 = ko.observable(""),
-        correct = ko.observable(""),
+        correct = ko.observable(0),
         explain1 = ko.observable(""),
         explain2 = ko.observable(""),
         explain3 = ko.observable(""),
@@ -279,32 +320,37 @@ MK.vm.Admin = function () {
         page_reference = ko.observable("");
 
     function save() {
-        var q = {
-            question: title(),
-            answer1: answer1(),
-            answer2: answer2(),
-            answer3: answer3(),
-            answer4: answer4(),
-            correct: correct(),
-            explain1: explain1(),
-            explain2: explain2(),
-            explain3: explain3(),
-            explain4: explain4(),
-            image1: image1(),
-            image2: image2(),
-            image3: image3(),
-            image4: image4(),
-            page_reference: page_reference(),
-        }
 
-        MK.server.postJson('/question', q, function onSuccess() {
+        var Q = Parse.Object.extend("question");
+        var q = new Q();
+         
+        q.set("title", title());
+        q.set("answer1", answer1());
+        q.set("answer2", answer2());
+        q.set("answer3", answer3());
+        q.set("answer4", answer4());
+        q.set("correct", correct());
+        q.set("explain1", explain1());
+        q.set("explain2", explain2());
+        q.set("explain3", explain3());
+        q.set("explain4", explain4());
+        q.set("image1", image1());
+        q.set("image2", image2());
+        q.set("image3", image3());
+        q.set("image4", image4());
+        q.set("page_reference", page_reference());
+         
+        q.save(null, {
+          success: function(q) {
+            // Execute any logic that should take place after the object is saved.
+            //alert('New object created with objectId: ' + gameScore.id);'
             document.location.reload();
-        }, function onFailure() {
-            var msg = response.statusText + "\n\n";
-            msg += "Failed to save question";
-
-            window.alert(msg);
-            document.location.reload();
+          },
+          error: function(q, error) {
+            // Execute any logic that should take place if the save fails.
+            // error is a Parse.Error with an error code and message.
+            alert('Failed to create new object, with error code: ' + error.message);
+          }
         });
     }
 

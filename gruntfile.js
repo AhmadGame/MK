@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        copy: {
+        /*copy: {
             app: {
                 files: [{
                     expand: true,
@@ -51,11 +51,11 @@ module.exports = function(grunt) {
                     spawn: false,
                 }
             }
-        },
+        },*/
 
         jshint: {
             appFiles: [
-                '/MK.Service/Web/Views/static/js/*.js'
+                '/js/*.js'
             ],
             options: {
                 reporter: require('jshint-stylish'),
@@ -126,9 +126,9 @@ module.exports = function(grunt) {
 
     // Tasks
     grunt.registerTask('installgithooks', ['clean:hooks', 'shell:hooks']);
-    grunt.registerTask('watcher', ['less:app', 'less:admin', 'copy:app', 'watch']);
+    //grunt.registerTask('watcher', ['less:app', 'less:admin', 'copy:app', 'watch']);
 
     // Default task(s).
-    grunt.registerTask('default', ['watcher']);
+    //grunt.registerTask('default', ['watcher']);
 
 };
