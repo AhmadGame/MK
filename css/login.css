@@ -3,6 +3,12 @@
     text-align: center;
 }
 
+.panel-footer {
+	padding: 1px 15px;
+	color: #A0A0A0;
+    text-align: center;
+}
+
 .profile-img {
   width: 96px;
   height: 96px;
