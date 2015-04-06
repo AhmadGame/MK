@@ -2,8 +2,69 @@
 var MK = MK || {};
 MK.vm = {};
 
-MK.vm.Questions = function () {
-    var self = this;
+MK.vm.Test = function () {
+    var loggedIn = ko.observable(false);
+
+    // not logged in
+    var email = ko.observable(""),
+        password = ko.observable(""),
+        recover = ko.observable(false);
+
+    function login() {
+        Parse.User.logIn(email(), password(), {
+          success: function(user) {
+            loggedIn(true);
+          },
+          error: function(user, error) {
+            errorAlert("Error: " + error.code + " " + error.message);
+          }
+        });
+    }
+
+    function resetPassword() {
+        resetAlerts();
+        password("");
+        var query = new Parse.Query(Parse.User);
+
+        query.equalTo("username", email());
+        query.limit(1);
+        query.find({
+          success: function(results) {
+            var user = results[0];
+            user.set("password", "potatis");
+
+            user.save(null, {
+              success: function(user) {
+                recover(false);
+                infoAlert("Ditt lösenord är återställt till: <strong>potatis</strong>")
+              },
+              error: function(user, error) {
+                errorAlert("Error: " + error.code + " " + error.message);
+              }
+            });
+          },
+          error: function(error) {
+            errorAlert("Error: " + error.code + " " + error.message);
+          }
+        });
+    }
+
+    function errorAlert(message) {
+        $('#alerts').replaceWith('<div id="alerts"><hr><div class="alert alert-danger" role="alert">' + message + '</div></div>');
+    }
+
+    function infoAlert(message) {
+        $('#alerts').replaceWith(
+            '<div id="alerts"><hr><div class="alert alert-info" role="alert">' + message + '</div></div>'
+            );
+    }
+
+    function resetAlerts() {
+        $('#alerts').replaceWith('<div id="alerts"></div>');
+    }
+
+    // logged in
+
     var questions = ko.observable([]),
         activeIndex = ko.observable(0),
         activeQuestion = ko.observable(null),
@@ -19,14 +80,14 @@ MK.vm.Questions = function () {
     function next() {
         activeQuestion().setAnswer(getUserAnswer());
 
-        if (!self.nextQuestion()) {
+        if (!nextQuestion()) {
             return;
         }
 
-        self.previousQuestion(activeQuestion());
-        self.activeQuestion(nextQuestion());
-        self.activeIndex(nextQuestion().index);
-        self.nextQuestion(self.questions()[activeIndex() + 1]);
+        previousQuestion(activeQuestion());
+        activeQuestion(nextQuestion());
+        activeIndex(nextQuestion().index);
+        nextQuestion(questions()[activeIndex() + 1]);
     }
 
     function getUserAnswer() {
@@ -52,30 +113,30 @@ MK.vm.Questions = function () {
     }
 
     function prev() {
-        if (!self.previousQuestion()) {
+        if (!previousQuestion()) {
             return;
         }
 
-        self.nextQuestion(activeQuestion());
-        self.activeQuestion(previousQuestion());
-        self.activeIndex(previousQuestion().index);
-        if (self.activeIndex() >= 1) {
-            self.previousQuestion(self.questions()[self.activeIndex() - 1]);
+        nextQuestion(activeQuestion());
+        activeQuestion(previousQuestion());
+        activeIndex(previousQuestion().index);
+        if (activeIndex() >= 1) {
+            previousQuestion(questions()[activeIndex() - 1]);
         } else {
-            self.previousQuestion(null);
+            previousQuestion(null);
         }
     }
 
     function mark() {
-        self.activeQuestion().marked(true);
+        activeQuestion().marked(true);
     }
 
     function takeTest() {
-        if (self.numberOfQuestions() <= 0) {
+        if (numberOfQuestions() <= 0) {
             window.alert("Ange antalet frågor du vill besvara.");
             return;
         }
-        self.settingsVisible(false);
+        settingsVisible(false);
 
         getFromParse();
         //getRandomFromParse();
@@ -123,12 +184,12 @@ MK.vm.Questions = function () {
     }
 
     function showSummary() {
-        self.activeQuestion().setAnswer(getUserAnswer());
-        self.done(true);
+        activeQuestion().setAnswer(getUserAnswer());
+        done(true);
     }
 
     function correctTest() {
-        self.anyMistakes(_.any(questions(), function (q) {
+        anyMistakes(_.any(questions(), function (q) {
             return !q.answeredCorrectly;
         }));
         var correctCount = _.dropWhile(questions(), function (q) {
@@ -142,51 +203,59 @@ MK.vm.Questions = function () {
             result("Du är inte Godkänd! :( Men du hade " + correctPercent + "% rätt");
         }
 
-        self.done(false);
-        self.doneDone(true);
+        done(false);
+        doneDone(true);
     }
 
     function backToQuestions() {
-        self.done(false);
-        self.activeIndex(0);
-        self.activeQuestion(self.questions()[activeIndex()]);
-        self.nextQuestion(self.questions()[activeIndex() + 1]);
+        done(false);
+        activeIndex(0);
+        activeQuestion(questions()[activeIndex()]);
+        nextQuestion(questions()[activeIndex() + 1]);
     }
 
     function init(parseResult) {
-        self.questions(_.map(parseResult, function (parseObject) {
+        questions(_.map(parseResult, function (parseObject) {
             var question = new MK.vm.question();
             question.init(parseObject);
             return question;
         }));
 
-        for (var i = 0; i < self.questions().length; i++) {
-            self.questions()[i].index = i;
+        for (var i = 0; i < questions().length; i++) {
+            questions()[i].index = i;
         }
 
-        self.activeIndex(0);
-        self.activeQuestion(self.questions()[activeIndex()]);
-        self.nextQuestion(self.questions()[activeIndex() + 1]);
+        activeIndex(0);
+        activeQuestion(questions()[activeIndex()]);
+        nextQuestion(questions()[activeIndex() + 1]);
     }
+    return {
+        loggedIn: loggedIn,
+        email: email,
+        password: password,
+        login: login,
+        recover: recover,
+        resetPassword: resetPassword,
 
-    this.questions = questions;
-    this.activeQuestion = activeQuestion;
-    this.activeIndex = activeIndex;
-    this.nextQuestion = nextQuestion;
-    this.previousQuestion = previousQuestion;
-    this.next = next;
-    this.prev = prev;
-    this.mark = mark;
-    this.settingsVisible = settingsVisible;
-    this.numberOfQuestions = numberOfQuestions;
-    this.takeTest = takeTest;
-    this.done = done;
-    this.doneDone = doneDone;
-    this.correctTest = correctTest;
-    this.showSummary = showSummary;
-    this.backToQuestions = backToQuestions;
-    this.anyMistakes = anyMistakes;
-    this.result = result;
+        questions: questions,
+        activeQuestion: activeQuestion,
+        activeIndex: activeIndex,
+        nextQuestion: nextQuestion,
+        previousQuestion: previousQuestion,
+        next: next,
+        prev: prev,
+        mark: mark,
+        settingsVisible: settingsVisible,
+        numberOfQuestions: numberOfQuestions,
+        takeTest: takeTest,
+        done: done,
+        doneDone: doneDone,
+        correctTest: correctTest,
+        showSummary: showSummary,
+        backToQuestions: backToQuestions,
+        anyMistakes: anyMistakes,
+        result: result
+    }
 };
 
 MK.vm.question = function () {
@@ -301,75 +370,3 @@ MK.vm.question = function () {
     this.setAnswer = setAnswer;
     this.answeredCorrectly = answeredCorrectly;
 };
-
-/*MK.vm.Admin = function () {
-    var title = ko.observable(""),
-        answer1 = ko.observable(""),
-        answer2 = ko.observable(""),
-        answer3 = ko.observable(""),
-        answer4 = ko.observable(""),
-        correct = ko.observable(0),
-        explain1 = ko.observable(""),
-        explain2 = ko.observable(""),
-        explain3 = ko.observable(""),
-        explain4 = ko.observable(""),
-        image1 = ko.observable(""),
-        image2 = ko.observable(""),
-        image3 = ko.observable(""),
-        image4 = ko.observable(""),
-        page_reference = ko.observable("");
-
-    function save() {
-
-        var Q = Parse.Object.extend("question");
-        var q = new Q();
-         
-        q.set("title", title());
-        q.set("answer1", answer1());
-        q.set("answer2", answer2());
-        q.set("answer3", answer3());
-        q.set("answer4", answer4());
-        q.set("correct", correct());
-        q.set("explain1", explain1());
-        q.set("explain2", explain2());
-        q.set("explain3", explain3());
-        q.set("explain4", explain4());
-        q.set("image1", image1());
-        q.set("image2", image2());
-        q.set("image3", image3());
-        q.set("image4", image4());
-        q.set("page_reference", page_reference());
-         
-        q.save(null, {
-          success: function(q) {
-            // Execute any logic that should take place after the object is saved.
-            //alert('New object created with objectId: ' + gameScore.id);'
-            document.location.reload();
-          },
-          error: function(q, error) {
-            // Execute any logic that should take place if the save fails.
-            // error is a Parse.Error with an error code and message.
-            alert('Failed to create new object, with error code: ' + error.message);
-          }
-        });
-    }
-
-    return {
-        title: title,
-        answer1: answer1,
-        answer2: answer2,
-        answer3: answer3,
-        answer4: answer4,
-        correct: correct,
-        explain1: explain1,
-        explain2: explain2,
-        explain3: explain3,
-        explain4: explain4,
-        image1: image1,
-        image2: image2,
-        image3: image3,
-        image4: image4,
-        page_reference: page_reference,
-        save: save
-    }
-}*/
