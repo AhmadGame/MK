@@ -1,0 +1,128 @@
+﻿<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- css-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/register.css">
+
+    <!--Vendor js-->
+    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src='js/vendor/lodash.js'></script>
+    <script type='text/javascript' src='js/vendor/knockout-3.3.0.js'></script>
+    <script type='text/javascript' src='js/vendor/parse-1.4.0.min.js'></script>
+
+    <!--js-->
+    <script src="js/main.js"></script>
+</head>
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">
+                    <img alt="Brand" src="/img/brand.jpg" style="height: 30px">
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+     <h3>Registrera en ny elev</h3>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Namn</label>
+                <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input type="text" class="form-control" name="Username" id="Username" placeholder="Namn" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>E-post</label>
+                <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    <input type="text" class="form-control" name="Email" id="Email" placeholder="E-post" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Lösenord</label>
+                <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Lösenord" required data-toggle="popover" title="Password Strength" data-content="Enter Password...">
+                </div>
+            </div>
+            <input type="submit" name="submit" id="submit" value="Registrera" class="btn btn-primary btn-block">
+        </div>
+    </div>
+</div>
+    <script>
+        $(function () {
+            Parse.initialize("5TBUzQpiIwLaRSaK3fO3BkLyr0zLGJplfB3caY57", "p5aQInJWkWpGRlKRbngrquhrnr3jSluUSXbqvaQv");
+            window.bajs = new MK.vm.Questions();
+            ko.applyBindings(window.bajs);
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+        //minimum 8 characters
+        var bad = /(?=.{8,}).*/;
+        //Alpha Numeric plus minimum 8
+        var good = /^(?=\S*?[a-z])(?=\S*?[0-9])\S{8,}$/;
+        //Must contain at least one upper case letter, one lower case letter and (one number OR one special char).
+        var better = /^(?=\S*?[A-Z])(?=\S*?[a-z])((?=\S*?[0-9])|(?=\S*?[^\w\*]))\S{8,}$/;
+        //Must contain at least one upper case letter, one lower case letter and (one number AND one special char).
+        var best = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?=\S*?[^\w\*])\S{8,}$/;
+
+        $('#password').on('keyup', function () {
+            var password = $(this);
+            var pass = password.val();
+            var passLabel = $('[for="password"]');
+            var stength = 'Weak';
+            var pclass = 'danger';
+            if (best.test(pass) == true) {
+                stength = 'Very Strong';
+                pclass = 'success';
+            } else if (better.test(pass) == true) {
+                stength = 'Strong';
+                pclass = 'warning';
+            } else if (good.test(pass) == true) {
+                stength = 'Almost Strong';
+                pclass = 'warning';
+            } else if (bad.test(pass) == true) {
+                stength = 'Weak';
+            } else {
+                stength = 'Very Weak';
+            }
+
+            var popover = password.attr('data-content', stength).data('bs.popover');
+            popover.setContent();
+            popover.$tip.addClass(popover.options.placement).removeClass('danger success info warning primary').addClass(pclass);
+
+        });
+
+        $('input[data-toggle="popover"]').popover({
+            placement: 'top',
+            trigger: 'focus'
+        });
+
+        })
+    </script>
+
+</body>
+</html>

@@ -302,7 +302,7 @@ MK.vm.question = function () {
     this.answeredCorrectly = answeredCorrectly;
 };
 
-MK.vm.Admin = function () {
+/*MK.vm.Admin = function () {
     var title = ko.observable(""),
         answer1 = ko.observable(""),
         answer2 = ko.observable(""),
@@ -372,4 +372,4 @@ MK.vm.Admin = function () {
         page_reference: page_reference,
         save: save
     }
-}
+}*/
