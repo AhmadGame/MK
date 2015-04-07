@@ -16,7 +16,7 @@ MK.vm.Test = function () {
             loggedIn(true);
           },
           error: function(user, error) {
-            errorAlert("Error: " + error.code + " " + error.message);
+            customAlert("danger", "Error: " + error.code + " " + error.message);
           }
         });
     }
@@ -31,31 +31,30 @@ MK.vm.Test = function () {
         query.find({
           success: function(results) {
             var user = results[0];
+            if (!user) {
+                customAlert("danger", "Error: User " + email() + " not found");
+            }
             user.set("password", "potatis");
 
             user.save(null, {
               success: function(user) {
                 recover(false);
-                infoAlert("Ditt lösenord är återställt till: <strong>potatis</strong>")
+                customAlert("info", "Ditt lösenord är återställt till: <strong>potatis</strong>");
               },
               error: function(user, error) {
-                errorAlert("Error: " + error.code + " " + error.message);
+                customAlert("danger", "Error: " + error.code + " " + error.message);
               }
             });
           },
           error: function(error) {
-            errorAlert("Error: " + error.code + " " + error.message);
+            customAlert("danger", "Error: " + error.code + " " + error.message);
           }
         });
     }
 
-    function errorAlert(message) {
-        $('#alerts').replaceWith('<div id="alerts"><hr><div class="alert alert-danger" role="alert">' + message + '</div></div>');
-    }
-
-    function infoAlert(message) {
+    function customAlert(type, message) {
         $('#alerts').replaceWith(
-            '<div id="alerts"><hr><div class="alert alert-info" role="alert">' + message + '</div></div>'
+            '<div id="alerts"><hr><div class="alert alert-'+ type + '" role="alert">' + message + '</div></div>'
             );
     }
 
@@ -133,7 +132,7 @@ MK.vm.Test = function () {
 
     function takeTest() {
         if (numberOfQuestions() <= 0) {
-            window.alert("Ange antalet frågor du vill besvara.");
+            customAlert("warning", "Ange antalet frågor du vill besvara.");
             return;
         }
         settingsVisible(false);
@@ -151,8 +150,7 @@ MK.vm.Test = function () {
             init(results);
           },
           error: function(error) {
-            //alert("Error: " + error.code + " " + error.message);
-            document.location.href = './fail.html';
+            customAlert("danger", "Error: " + error.code + " " + error.message);
           }
         });
     }
@@ -178,7 +176,7 @@ MK.vm.Test = function () {
             init(results);
           },
           error: function(error) {
-            document.location.href = './fail.html';
+            customAlert("danger", "Error: " + error.code + " " + error.message);
           }
         });
     }
@@ -230,6 +228,8 @@ MK.vm.Test = function () {
         nextQuestion(questions()[activeIndex() + 1]);
     }
     return {
+        resetAlerts: resetAlerts,
+
         loggedIn: loggedIn,
         email: email,
         password: password,
