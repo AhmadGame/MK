@@ -21,6 +21,11 @@ MK.vm.Test = function () {
         });
     }
 
+    function recoverPassword() {
+        recover(true);
+        resetAlerts();
+    }
+
     function resetPassword() {
         resetAlerts();
         password("");
@@ -212,6 +217,11 @@ MK.vm.Test = function () {
         nextQuestion(questions()[activeIndex() + 1]);
     }
 
+    function newTest() {
+        doneDone(false);
+        settingsVisible(true);
+    }
+
     function init(parseResult) {
         questions(_.map(parseResult, function (parseObject) {
             var question = new MK.vm.question();
@@ -228,13 +238,12 @@ MK.vm.Test = function () {
         nextQuestion(questions()[activeIndex() + 1]);
     }
     return {
-        resetAlerts: resetAlerts,
-
         loggedIn: loggedIn,
         email: email,
         password: password,
         login: login,
         recover: recover,
+        recoverPassword: recoverPassword,
         resetPassword: resetPassword,
 
         questions: questions,
@@ -254,7 +263,8 @@ MK.vm.Test = function () {
         showSummary: showSummary,
         backToQuestions: backToQuestions,
         anyMistakes: anyMistakes,
-        result: result
+        result: result,
+        newTest: newTest
     }
 };
 

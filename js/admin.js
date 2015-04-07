@@ -13,6 +13,7 @@ MK.vm.Admin = function () {
         Parse.User.logIn("admin", adminPassword(), {
           success: function(user) {
             loggedIn(true);
+            initViewQuestions();
           },
           error: function(user, error) {
             errorAlert("Error: " + error.code + " " + error.message);
@@ -43,6 +44,13 @@ MK.vm.Admin = function () {
         image3 = ko.observable(""),
         image4 = ko.observable(""),
         page_reference = ko.observable("");
+
+    function initAddQuestion() {
+        addUser(false); 
+        addQuestion(true); 
+        viewQuestions(false); 
+        viewUsers(false); 
+    }
 
     function save() {
 
@@ -77,6 +85,7 @@ MK.vm.Admin = function () {
           }
         });
     }
+
     //****************************************
     // addUser
     //****************************************
@@ -84,6 +93,14 @@ MK.vm.Admin = function () {
     var userName = ko.observable(""),
         userEmail = ko.observable(""),
         userPassword = ko.observable("");
+
+    function initAddUser() {
+        addUser(true); 
+        addQuestion(false); 
+        viewQuestions(false); 
+        viewUsers(false); 
+        initPopover();
+    }
 
     function register() {
         var user = new Parse.User();
@@ -102,7 +119,7 @@ MK.vm.Admin = function () {
         });
     }
 
-    function initPopover(){
+    function initPopover() {
         //minimum 8 characters
         var bad = /(?=.{8,}).*/;
         //Alpha Numeric plus minimum 8
@@ -149,11 +166,47 @@ MK.vm.Admin = function () {
     // viewUsers
     //****************************************
     var viewUsers = ko.observable(false);
+    var users = ko.observable([]);
+    var usersLoaded = 0;
+
+    function initViewUsers() {
+        addUser(false); 
+        addQuestion(false); 
+        viewQuestions(false); 
+        viewUsers(true);
+
+        getUsers()
+    }
+
+    function getUsers() {
+        var query = new Parse.Query(Parse.User);
+        query.limit(20);
+        query.find({
+          success: function(results) {
+            users(_.map(results, function (parseObject) {
+                var user = new MK.vm.user();
+                user.init(parseObject);
+                return user;
+            }));
+
+          },
+          error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+    }
 
     //****************************************
     // viewQuestions
     //****************************************
     var viewQuestions = ko.observable(false);
+
+    function initViewQuestions() {
+        addUser(false); 
+        addQuestion(false); 
+        viewQuestions(true); 
+        viewUsers(false); 
+    }
 
     return {
         loggedIn: loggedIn,
@@ -161,6 +214,7 @@ MK.vm.Admin = function () {
         login: login,
 
         addQuestion: addQuestion,
+        initAddQuestion: initAddQuestion,
         title: title,
         answer1: answer1,
         answer2: answer2,
@@ -179,6 +233,7 @@ MK.vm.Admin = function () {
         save: save,
 
         addUser: addUser,
+        initAddUser: initAddUser,
         userName: userName,
         userEmail: userEmail,
         userPassword: userPassword,
@@ -186,6 +241,29 @@ MK.vm.Admin = function () {
         initPopover: initPopover,
 
         viewQuestions: viewQuestions,
-        viewUsers: viewUsers
+        initViewQuestions: initViewQuestions,
+
+        viewUsers: viewUsers,
+        initViewUsers: initViewUsers,
+        users: users
     }
+}
+
+MK.vm.user = function() {
+    var self = this;
+    var name, email;
+    
+    function init(parseObject) {
+        self.name = parseObject.get("name");
+        self.email = parseObject.get("username");
+    }
+
+    function deleteUser () {
+        alert("deleted");
+    }
+
+    this.name = name;
+    this.email = email;
+    this.init = init;
+    this.deleteUser = deleteUser;
 }

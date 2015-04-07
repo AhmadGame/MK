@@ -4,216 +4,228 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
- <!--<![endif]-->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-    
-    <!-- css-->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/admin.css">
-    
-    <!--Vendor js-->
-    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-    <script src="js/vendor/bootstrap.min.js"></script>
-    <script type='text/javascript' src='js/vendor/lodash.js'></script>
-    <script type='text/javascript' src='js/vendor/knockout-3.3.0.js'></script>
-    <script type='text/javascript' src='js/vendor/parse-1.4.0.min.js'></script>
+<!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+        
+        <!-- css-->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/admin.css">
+        
+        <!--Vendor js-->
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script type='text/javascript' src='js/vendor/lodash.js'></script>
+        <script type='text/javascript' src='js/vendor/knockout-3.3.0.js'></script>
+        <script type='text/javascript' src='js/vendor/parse-1.4.0.min.js'></script>
 
-    <!--js-->
-    <script src="js/admin.js"></script>
-</head>
-<body>
-    <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <!-- ko if: !loggedIn() -->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
+        <!--js-->
+        <script src="js/admin.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- ko if: !loggedIn() -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" src="/img/brand.jpg" style="height: 30px">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container" style="margin-top:40px">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong> Logga in som Admin </strong>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form" action="#" method="POST">
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="center-block">
+                                            <img class="profile-img"
+                                                src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-10  col-md-offset-1 ">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="glyphicon glyphicon-lock"></i>
+                                                    </span>
+                                                    <input class="form-control" placeholder="Lösenord" name="adminPassword" type="password" data-bind="value: adminPassword">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Logga in" data-bind="click: login">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->
+            <div id="alerts"></div>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: loggedIn() -->
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
                 <a class="navbar-brand" href="#">
                     <img alt="Brand" src="/img/brand.jpg" style="height: 30px">
                 </a>
             </div>
-        </div>
-    </nav>
-    <div class="container" style="margin-top:40px">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong> Logga in som Admin </strong>
-                    </div>
-                    <div class="panel-body">
-                        <form role="form" action="#" method="POST">
-                            <fieldset>
-                                <div class="row">
-                                    <div class="center-block">
-                                        <img class="profile-img"
-                                            src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-10  col-md-offset-1 ">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="glyphicon glyphicon-lock"></i>
-                                                </span>
-                                                <input class="form-control" placeholder="Lösenord" name="adminPassword" type="password" data-bind="value: adminPassword">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Logga in" data-bind="click: login">
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" onclick="bajs.initAddUser()">Lägg till elev</a></li>
+                <li><a href="#" onclick="bajs.initAddQuestion()">Lägg till fråga</a></li>
+                <li><a href="#" onclick="bajs.initViewUsers()">Alla elever</a></li>
+                <li><a href="#" onclick="bajs.initViewQuestions()">Alla frågor</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+
+        <!-- ko if: addQuestion() -->
+        <div class="container">
+            <form>
+                <div class="form-group">
+                    <h4>Fråga</h4>
+                    <input type="text" data-bind="value: title" class="form-control" placeholder="Skriv in din fråga här">
                 </div>
-            </div>
+                <hr />
+                <div class="form-group">
+                    <h3>Svar</h3>
+                    <input type="text" data-bind="value: answer1" class="form-control" placeholder="Första alternativet">
+                    <textarea data-bind="value: explain1" class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                    <hr />
+                    <input type="text" data-bind="value: answer2" class="form-control" placeholder="Andra alternativet">
+                    <textarea data-bind="value: explain2" class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                    <hr />
+                    <input type="text" data-bind="value: answer3" class="form-control" placeholder="Tredje alternativet">
+                    <textarea data-bind="value: explain3" class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                    <hr />
+                    <input type="text" data-bind="value: answer4" class="form-control" placeholder="Fjärde alternativet">
+                    <textarea data-bind="value: explain4" class="form-control" rows="3" placeholder="Förklaring"></textarea>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <h3>Rätt svar</h3>
+                    <input type="number" data-bind="value: correct" class="form-control" placeholder="Nr på rätt svar">
+                    <hr />
+                </div>
+                <div class="form-group">
+                    <label for="picture1">Ladda upp en bild</label>
+                    <input type="file" data-bind="value: image1" id="picture1">
+                </div>
+                <div class="form-group">
+                    <label for="picture2">Ladda upp en bild</label>
+                    <input type="file" data-bind="value: image2" id="picture2">
+                </div>
+                <div class="form-group">
+                    <label for="picture3">Ladda upp en bild</label>
+                    <input type="file" data-bind="value: image3" id="picture3">
+                </div>
+                <div class="form-group">
+                    <label for="picture4">Ladda upp en bild</label>
+                    <input type="file" data-bind="value: image4" id="picture4">
+                </div>
+                <hr />
+                <button type="submit" class="btn btn-success col-md-12" data-bind="click: save">Spara</button>
+            </form>
         </div>
         <!-- /ko -->
-        <div id="alerts"></div>
-    </div>
-    <!-- /ko -->
 
-    <!-- ko if: loggedIn() -->
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-            <a class="navbar-brand" href="#">
-                <img alt="Brand" src="/img/brand.jpg" style="height: 30px">
-            </a>
+        <!-- ko if: addUser() -->
+        <div class="container">
+            <h3>Registrera en ny elev</h3>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Namn</label>
+                        <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                            <input type="text" class="form-control" name="Username" id="Username" placeholder="Namn" required data-bind="value: userName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>E-post</label>
+                        <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                            <input type="text" class="form-control" name="Email" id="Email" placeholder="E-post" required data-bind="value: userEmail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Lösenord</label>
+                        <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Lösenord" required data-toggle="popover" title="Password Strength" data-content="Enter Password..." data-bind="value: userPassword">
+                        </div>
+                    </div>
+                    <input type="submit" name="submit" id="submit" value="Registrera" class="btn btn-primary btn-block" data-bind="click: register">
+                </div>
+            </div>
+            <div id="alerts"></div>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" onclick="bajs.addUser(true); bajs.addQuestion(false); bajs.viewQuestions(false); bajs.viewUsers(false); bajs.initPopover()">Lägg till elev</a></li>
-            <li><a href="#" onclick="bajs.addUser(false); bajs.addQuestion(true); bajs.viewQuestions(false); bajs.viewUsers(false);">Lägg till fråga</a></li>
-            <li><a href="#" onclick="bajs.addUser(false); bajs.addQuestion(false); bajs.viewQuestions(true); bajs.viewUsers(false);">Alla elever</a></li>
-            <li><a href="#" onclick="bajs.addUser(false); bajs.addQuestion(false); bajs.viewQuestions(false); bajs.viewUsers(true);">Alla frågor</a></li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
+        <!-- /ko -->
 
-    <!-- ko if: loggedIn() && !addQuestion() && !addUser() && !viewQuestions() && !viewUsers() -->
-    <div class="jumbotron" style="text-align: center;">
-        <h4>Välkommen till admin! Välj i menyn vad du vill göra.</h4>
-    </div>
-    <!-- /ko -->
+        <!-- ko if: viewQuestions() -->
+        <!-- /ko -->
 
-    <!-- ko if: addQuestion()-->
-    <div class="container content">
-        <form>
-            <div class="form-group">
-                <h4>Fråga</h4>
-                <input type="text" data-bind="value: title" class="form-control" placeholder="Skriv in din fråga här">
-            </div>
-            <hr />
-            <div class="form-group">
-                <h3>Svar</h3>
-                <input type="text" data-bind="value: answer1" class="form-control" placeholder="Första alternativet">
-                <textarea data-bind="value: explain1" class="form-control" rows="3" placeholder="Förklaring"></textarea>
-                <hr />
-                <input type="text" data-bind="value: answer2" class="form-control" placeholder="Andra alternativet">
-                <textarea data-bind="value: explain2" class="form-control" rows="3" placeholder="Förklaring"></textarea>
-                <hr />
-                <input type="text" data-bind="value: answer3" class="form-control" placeholder="Tredje alternativet">
-                <textarea data-bind="value: explain3" class="form-control" rows="3" placeholder="Förklaring"></textarea>
-                <hr />
-                <input type="text" data-bind="value: answer4" class="form-control" placeholder="Fjärde alternativet">
-                <textarea data-bind="value: explain4" class="form-control" rows="3" placeholder="Förklaring"></textarea>
-            </div>
-            <hr />
-            <div class="form-group">
-                <h3>Rätt svar</h3>
-                <input type="number" data-bind="value: correct" class="form-control" placeholder="Nr på rätt svar">
-                <hr />
-            </div>
-            <div class="form-group">
-                <label for="picture1">Ladda upp en bild</label>
-                <input type="file" data-bind="value: image1" id="picture1">
-            </div>
-            <div class="form-group">
-                <label for="picture2">Ladda upp en bild</label>
-                <input type="file" data-bind="value: image2" id="picture2">
-            </div>
-            <div class="form-group">
-                <label for="picture3">Ladda upp en bild</label>
-                <input type="file" data-bind="value: image3" id="picture3">
-            </div>
-            <div class="form-group">
-                <label for="picture4">Ladda upp en bild</label>
-                <input type="file" data-bind="value: image4" id="picture4">
-            </div>
-            <hr />
-            <button type="submit" class="btn btn-success col-md-12" data-bind="click: save">Spara</button>
-        </form>
-    </div>
-    <!-- /ko -->
-
-    <!-- ko if: addUser() -->
-    <div class="container">
-        <h3>Registrera en ny elev</h3>
-        <hr>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Namn</label>
-                    <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                        <input type="text" class="form-control" name="Username" id="Username" placeholder="Namn" required data-bind="value: userName">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>E-post</label>
-                    <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                        <input type="text" class="form-control" name="Email" id="Email" placeholder="E-post" required data-bind="value: userEmail">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Lösenord</label>
-                    <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Lösenord" required data-toggle="popover" title="Password Strength" data-content="Enter Password..." data-bind="value: userPassword">
-                    </div>
-                </div>
-                <input type="submit" name="submit" id="submit" value="Registrera" class="btn btn-primary btn-block" data-bind="click: register">
-            </div>
+        <!-- ko if: viewUsers() -->
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Namn</th>
+                        <th>E-post</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ko foreach: users() -->
+                    <tr>
+                        <td class="col-md-4" data-bind="text: name"></td>
+                        <td class="col-md-4" data-bind="text: email"></td>
+                        <td><button class="btn btn-danger glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value=""></button></td>
+                    </tr>
+                    <!-- /ko -->
+                </tbody>
+            </table>
         </div>
-        <div id="alerts"></div>
-    </div>
-    <!-- /ko -->
+        <!-- /ko -->
+        
+        <!-- /ko -->
 
-    <!-- ko if: viewQuestions() -->
-    <!-- /ko -->
-
-    <!-- ko if: viewUsers() -->
-    <!-- /ko -->
-    
-    <!--end if loggedIn() -->
-    <!-- /ko -->
-
-    <script>
-    $(function () {
-        Parse.initialize("5TBUzQpiIwLaRSaK3fO3BkLyr0zLGJplfB3caY57", "p5aQInJWkWpGRlKRbngrquhrnr3jSluUSXbqvaQv");
-        window.bajs = new MK.vm.Admin();
-        ko.applyBindings(window.bajs);
-    });
-    </script>
-</body>
+        <script>
+        $(function () {
+            Parse.initialize("5TBUzQpiIwLaRSaK3fO3BkLyr0zLGJplfB3caY57", "p5aQInJWkWpGRlKRbngrquhrnr3jSluUSXbqvaQv");
+            window.bajs = new MK.vm.Admin();
+            ko.applyBindings(window.bajs);
+        });
+        </script>
+    </body>
 </html>

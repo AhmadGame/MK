@@ -7,8 +7,11 @@ input {
 	margin-bottom: 5px;
 }
 
-.content {
-	margin-top: 50px;
+.footer {
+    bottom: 0;
+    height: 60px;
+    position: absolute;
+    width: 100%;
 }
 
 .panel-heading {
