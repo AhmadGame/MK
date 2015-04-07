@@ -3,6 +3,31 @@ var MK = MK || {};
 MK.vm = {};
 
 MK.vm.Admin = function () {
+    //****************************************
+    // login
+    //****************************************
+    var loggedIn = ko.observable(false);
+    var adminPassword = ko.observable("");
+
+    function login() {
+        Parse.User.logIn("admin", adminPassword(), {
+          success: function(user) {
+            loggedIn(true);
+          },
+          error: function(user, error) {
+            errorAlert("Error: " + error.code + " " + error.message);
+          }
+        });
+    }
+
+    function errorAlert(message) {
+        $('#alerts').replaceWith('<div id="alerts"><hr><div class="alert alert-danger" role="alert">' + message + '</div></div>');
+    }
+
+    //****************************************
+    // addQuestion
+    //****************************************
+    var addQuestion = ko.observable(false);
     var title = ko.observable(""),
         answer1 = ko.observable(""),
         answer2 = ko.observable(""),
@@ -43,8 +68,7 @@ MK.vm.Admin = function () {
         question.save(null, {
           success: function(question) {
             // Execute any logic that should take place after the object is saved.
-            //alert('New object created with objectId: ' + gameScore.id);'
-            document.location.reload();
+            alert('Question saved');
           },
           error: function(question, error) {
             // Execute any logic that should take place if the save fails.
@@ -53,8 +77,25 @@ MK.vm.Admin = function () {
           }
         });
     }
+    //****************************************
+    // addQuestion
+    //****************************************
+    var addUser = ko.observable(false);
+    //****************************************
+    // viewUsers
+    //****************************************
+    var viewUsers = ko.observable(false);
+    //****************************************
+    // viewQuestions
+    //****************************************
+    var viewQuestions = ko.observable(false);
 
     return {
+        loggedIn: loggedIn,
+        adminPassword: adminPassword,
+        login: login,
+
+        addQuestion: addQuestion,
         title: title,
         answer1: answer1,
         answer2: answer2,
@@ -70,6 +111,10 @@ MK.vm.Admin = function () {
         image3: image3,
         image4: image4,
         page_reference: page_reference,
-        save: save
+        save: save,
+
+        addUser: addUser,
+        viewQuestions: viewQuestions,
+        viewUsers: viewUsers
     }
 }
