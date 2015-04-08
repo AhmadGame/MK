@@ -214,14 +214,37 @@ MK.vm.Admin = function () {
     // viewQuestions
     //****************************************
     var viewQuestions = ko.observable(false);
-
+    var questions = ko.observable([]);
+    var questionsStart = 0;
     function initViewQuestions() {
         
         addUser(false); 
         addQuestion(false); 
         viewQuestions(true); 
-        viewUsers(false); 
+        viewUsers(false);
+
+        getQuestions(questionsStart);
     }
+
+        function getQuestions(skip) {
+
+            var Question = Parse.Object.extend("question");
+            var query = new Parse.Query(Question);
+            query.limit(20);
+            query.skip(skip);
+            query.find({
+              success: function(results) {
+                questions(_.map(results, function (parseObject) {
+                    var q = new MK.vm.question();
+                    q.init(parseObject);
+                    return q;
+                }));
+              },
+              error: function(error) {
+                alert("Error: " + error.code + " " + error.message);
+              }
+            });
+        }
 
     return {
         loggedIn: loggedIn,
@@ -257,6 +280,7 @@ MK.vm.Admin = function () {
 
         viewQuestions: viewQuestions,
         initViewQuestions: initViewQuestions,
+        questions: questions,
 
         viewUsers: viewUsers,
         initViewUsers: initViewUsers,

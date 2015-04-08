@@ -194,27 +194,30 @@
         </div>
         <!-- /ko -->
 
-        <!-- ko if: viewQuestions() -->
-        <div class="row">
-            <table class="table" id="table">
-                <thead>
-                    <tr>
-                        <th>Namn</th>
-                        <th>E-post</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- ko foreach: users() -->
-                    <tr>
-                        <td class="col-md-4" data-bind="text: name"></td>
-                        <td class="col-md-4" data-bind="text: email"></td>
-                        <td>
-                            <button class="btn btn-link glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value=""></button>
-                        </td>
-                    </tr>
-                    <!-- /ko -->
-                </tbody>
-            </table>
+        <!-- ko if: viewUsers()-->
+        <div class="container">
+            <div class="row">
+                <table class="table" id="table">
+                    <thead>
+                        <tr>
+                            <th>Namn</th>
+                            <th>E-post</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: users() -->
+                        <tr>
+                            <td class="col-md-4" data-bind="text: name"></td>
+                            <td class="col-md-4" data-bind="text: email"></td>
+                            <td>
+                                <button class="btn btn-link glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value="" style="text-decoration: none;"></button>
+                            </td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
         </div>
         <footer class="footer">
             <div class="container" style="float: right">
@@ -228,8 +231,58 @@
         </footer>
         <!-- /ko -->
 
-        <!-- ko if: viewUsers() -->
-        <footer class="footer">
+        <!-- ko if: viewQuestions() -->
+        <div class="container">
+            <div class="row">
+                <table class="table" id="table">
+                    <thead>
+                        <tr>
+                            <th>title</th>
+                            <th>answer1</th>
+                            <th>answer2</th>
+                            <th>answer3</th>
+                            <th>answer4</th>
+                            <th>correct</th>
+                            <th>explain1</th>
+                            <th>explain2</th>
+                            <th>explain3</th>
+                            <th>explain4</th>
+                            <th>image1</th>
+                            <th>image2</th>
+                            <th>image3</th>
+                            <th>image4</th>
+                            <th>page_reference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: questions() -->
+                        <tr>
+                            <td class="col-md-4" data-bind="text: title"></td>
+                            <td class="col-md-4" data-bind="text: answer1"></td>
+                            <td class="col-md-4" data-bind="text: answer2"></td>
+                            <td class="col-md-4" data-bind="text: answer3"></td>
+                            <td class="col-md-4" data-bind="text: answer4"></td>
+                            <td class="col-md-4" data-bind="text: correct"></td>
+                            <td class="col-md-4" data-bind="text: explain1"></td>
+                            <td class="col-md-4" data-bind="text: explain2"></td>
+                            <td class="col-md-4" data-bind="text: explain3"></td>
+                            <td class="col-md-4" data-bind="text: explain4"></td>
+                            <td class="col-md-4" data-bind="text: image1"></td>
+                            <td class="col-md-4" data-bind="text: image2"></td>
+                            <td class="col-md-4" data-bind="text: image3"></td>
+                            <td class="col-md-4" data-bind="text: image4"></td>
+                            <td class="col-md-4" data-bind="text: page_reference"></td>
+    <!--                         <td>
+                                <button class="btn btn-link glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value=""></button>
+                            </td> -->
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+<!--         <footer class="footer">
             <div class="container" style="float: right">
                 <span class="prev-button">
                     <button type="button" class="btn btn-link" data-bind="click: prev">&laquo;</button>
@@ -238,7 +291,7 @@
                     <button type="button" class="btn btn-link" data-bind="click: next">&raquo;</button>
                 </span>
             </div>
-        </footer>
+        </footer> -->
         <!-- /ko -->
         
         <!-- /ko -->
