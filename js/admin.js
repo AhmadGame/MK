@@ -167,20 +167,21 @@ MK.vm.Admin = function () {
     //****************************************
     var viewUsers = ko.observable(false);
     var users = ko.observable([]);
-    var usersLoaded = 0;
+    var usersStart = 0;
 
     function initViewUsers() {
         addUser(false); 
         addQuestion(false); 
         viewQuestions(false); 
         viewUsers(true);
-
-        getUsers()
+        
+        getUsers(0);
     }
 
-    function getUsers() {
+    function getUsers(skip) {
         var query = new Parse.Query(Parse.User);
         query.limit(20);
+        query.skip(skip);
         query.find({
           success: function(results) {
             users(_.map(results, function (parseObject) {
@@ -188,12 +189,19 @@ MK.vm.Admin = function () {
                 user.init(parseObject);
                 return user;
             }));
-
           },
           error: function(error) {
             alert("Error: " + error.code + " " + error.message);
           }
         });
+    }
+
+    function next () {
+        getUsers(usersStart);
+    }
+
+    function prev () {
+        getUsers(usersStart);
     }
 
     //****************************************
@@ -245,7 +253,9 @@ MK.vm.Admin = function () {
 
         viewUsers: viewUsers,
         initViewUsers: initViewUsers,
-        users: users
+        users: users,
+        next: next,
+        prev: prev
     }
 }
 

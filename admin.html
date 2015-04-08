@@ -194,11 +194,8 @@
         <!-- /ko -->
 
         <!-- ko if: viewQuestions() -->
-        <!-- /ko -->
-
-        <!-- ko if: viewUsers() -->
-        <div class="container">
-            <table class="table">
+        <div class="row">
+            <table class="table" id="table">
                 <thead>
                     <tr>
                         <th>Namn</th>
@@ -210,12 +207,37 @@
                     <tr>
                         <td class="col-md-4" data-bind="text: name"></td>
                         <td class="col-md-4" data-bind="text: email"></td>
-                        <td><button class="btn btn-danger glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value=""></button></td>
+                        <td>
+                            <button class="btn btn-link glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value=""></button>
+                        </td>
                     </tr>
                     <!-- /ko -->
                 </tbody>
             </table>
         </div>
+        <footer class="footer">
+            <div class="container" style="float: right">
+                <span class="prev-button">
+                    <button type="button" class="btn btn-link" data-bind="click: prev">&laquo;</button>
+                </span>
+                <span class="next-button">
+                    <button type="button" class="btn btn-link" data-bind="click: next">&raquo;</button>
+                </span>
+            </div>
+        </footer>
+        <!-- /ko -->
+
+        <!-- ko if: viewUsers() -->
+        <footer class="footer">
+            <div class="container" style="float: right">
+                <span class="prev-button">
+                    <button type="button" class="btn btn-link" data-bind="click: prev">&laquo;</button>
+                </span>
+                <span class="next-button">
+                    <button type="button" class="btn btn-link" data-bind="click: next">&raquo;</button>
+                </span>
+            </div>
+        </footer>
         <!-- /ko -->
         
         <!-- /ko -->
