@@ -46,6 +46,7 @@ MK.vm.Admin = function () {
         page_reference = ko.observable("");
 
     function initAddQuestion() {
+
         addUser(false); 
         addQuestion(true); 
         viewQuestions(false); 
@@ -95,6 +96,7 @@ MK.vm.Admin = function () {
         userPassword = ko.observable("");
 
     function initAddUser() {
+        
         addUser(true); 
         addQuestion(false); 
         viewQuestions(false); 
@@ -103,6 +105,7 @@ MK.vm.Admin = function () {
     }
 
     function register() {
+        
         var user = new Parse.User();
         user.set("username", userEmail());
         user.set("password", userPassword());
@@ -120,6 +123,7 @@ MK.vm.Admin = function () {
     }
 
     function initPopover() {
+        
         //minimum 8 characters
         var bad = /(?=.{8,}).*/;
         //Alpha Numeric plus minimum 8
@@ -170,6 +174,7 @@ MK.vm.Admin = function () {
     var usersLoaded = 0;
 
     function initViewUsers() {
+        
         addUser(false); 
         addQuestion(false); 
         viewQuestions(false); 
@@ -179,6 +184,7 @@ MK.vm.Admin = function () {
     }
 
     function getUsers() {
+        
         var query = new Parse.Query(Parse.User);
         query.limit(20);
         query.find({
@@ -202,6 +208,7 @@ MK.vm.Admin = function () {
     var viewQuestions = ko.observable(false);
 
     function initViewQuestions() {
+        
         addUser(false); 
         addQuestion(false); 
         viewQuestions(true); 
@@ -250,6 +257,7 @@ MK.vm.Admin = function () {
 }
 
 MK.vm.user = function() {
+    
     var self = this;
     var name, email;
     
