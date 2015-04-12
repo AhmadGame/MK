@@ -142,49 +142,39 @@ MK.vm.Test = function () {
         }
         settingsVisible(false);
 
-        getFromParse();
-        //*** TODO
-        //getRandomFromParse();
+        // ** TODO: Fix with index
+        getRandomTest();
     }
 
-    function getFromParse() {
-        var q = Parse.Object.extend("question");
-        var query = new Parse.Query(q);
-        query.limit(numberOfQuestions());
-        query.find({
-          success: function(results) {
-            init(results);
-          },
-          error: function(error) {
-            customAlert("danger", "Error: " + error.code + " " + error.message);
-          }
-        });
-    }
-
-    function getRandomFromParse() {
-        var q = Parse.Object.extend("question"),
-        count = (new Parse.Query(q)).count(), // total number of questions.
-        requestCount = numberOfQuestions(), // number of random cards that you want to query
-        query1, query2, randomQuery,
-        queries = [],
-        i;
-        for (i = 0; i < requestCount; i++) {
-            query1 = new Parse.Query(q);
-            query2 = new Parse.Query(q);
-            query1.skip(Math.floor(Math.random() * count));
-            query1.limit(1);
-            query2.matchesKeyInQuery("objectId", "objectId", query1);
-            queries.push(query2);
-        }
-        randomQuery = Parse.Query.or.apply(this, queries);
-        randomQuery.find({
-          success: function(results) {
-            init(results);
-          },
-          error: function(error) {
-            customAlert("danger", "Error: " + error.code + " " + error.message);
-          }
-        });
+    function getRandomTest () {
+        var Question = Parse.Object.extend("question");
+        var query = new Parse.Query(Question);
+        query.count({
+            success: function (count) {
+                var results = [];
+                var i;
+                for (i = 0; i < numberOfQuestions(); i++) {
+                    var query = new Parse.Query(Question);
+                    var random = Math.floor(Math.random() * count);
+                    query.skip(random);
+                    query.limit(1);
+                    query.first({
+                      success: function(myObj) {
+                        results.push(myObj);
+                        if (results.length == numberOfQuestions()) {
+                            init(results);
+                        };
+                      },
+                      error: function(myObj, error) {
+                        customAlert("danger", "Error: " + error.code + " " + error.message);
+                      }
+                    });
+                }
+            },
+            error: function (error) {
+                customAlert("danger", "Error: " + error.code + " " + error.message);
+            }
+        })
     }
 
     function showSummary() {
