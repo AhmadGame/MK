@@ -85,6 +85,35 @@ MK.vm.question = function () {
         }
     }
 
+    function deleteQuestion() {
+        var Question = Parse.Object.extend("question");
+        var query = new Parse.Query(Question);
+        query.equalTo("title", self.title);
+        query.equalTo("answer1", self.answer1);
+        query.equalTo("answer2", self.answer2);
+        query.equalTo("answer3", self.answer3);
+        query.equalTo("answer4", self.answer4);
+        query.first({
+          success: function(myObj) {
+            myObj.destroy({
+                success: function(myObject) {
+                    // The object was deleted from the Parse Cloud.
+                    alert("deleted");
+                },
+                error: function(myObject, error) {
+                    // The delete failed.
+                    // error is a Parse.Error with an error code and message.
+                    alert("not deleted");
+
+                }
+            });
+          },
+          error: function(myObj, error) {
+            alert("question not found");
+          }
+        });
+    }
+
     this.init = init;
     this.index = index;
     this.title = title;
@@ -108,4 +137,5 @@ MK.vm.question = function () {
     this.explination = explination;
     this.setAnswer = setAnswer;
     this.answeredCorrectly = answeredCorrectly;
+    this.deleteQuestion = deleteQuestion;
 };

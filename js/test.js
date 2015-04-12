@@ -143,6 +143,7 @@ MK.vm.Test = function () {
         settingsVisible(false);
 
         getFromParse();
+        //*** TODO
         //getRandomFromParse();
     }
 

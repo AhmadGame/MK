@@ -210,7 +210,7 @@
                         <tr>
                             <td class="col-md-4" data-bind="text: name"></td>
                             <td class="col-md-4" data-bind="text: email"></td>
-                            <td>
+                            <td class="col-md-1">
                                 <button class="btn btn-link glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value="" style="text-decoration: none;"></button>
                             </td>
                         </tr>
@@ -219,16 +219,17 @@
                 </table>
             </div>
         </div>
-        <footer class="footer">
-            <div class="container" style="float: right">
-                <span class="prev-button">
-                    <button type="button" class="btn btn-link" data-bind="click: prev">&laquo;</button>
-                </span>
-                <span class="next-button">
-                    <button type="button" class="btn btn-link" data-bind="click: next">&raquo;</button>
-                </span>
-            </div>
-        </footer>
+        <div class="container">
+            <span class="prev-button">
+                <button type="button" class="btn btn-link" data-bind="click: prevUsers" style="text-decoration: none;">&laquo;</button>
+            </span>
+            <span data-bind="text: usersLoaded()" style="margin-left: 5px; margin-right: 5px;"></span>
+            <span> / </span>
+            <span data-bind="text: userCount()" style="margin-left: 5px; margin-right: 5px;"></span>
+            <span class="next-button">
+                <button type="button" class="btn btn-link" data-bind="click: nextUsers" style="text-decoration: none;">&raquo;</button>
+            </span>
+        </div>
         <!-- /ko -->
 
         <!-- ko if: viewQuestions() -->
@@ -243,7 +244,7 @@
                             <th>answer3</th>
                             <th>answer4</th>
                             <th>correct</th>
-                            <th>explain1</th>
+<!--                             <th>explain1</th>
                             <th>explain2</th>
                             <th>explain3</th>
                             <th>explain4</th>
@@ -251,7 +252,7 @@
                             <th>image2</th>
                             <th>image3</th>
                             <th>image4</th>
-                            <th>page_reference</th>
+                            <th>page_reference</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -263,7 +264,7 @@
                             <td class="col-md-4" data-bind="text: answer3"></td>
                             <td class="col-md-4" data-bind="text: answer4"></td>
                             <td class="col-md-4" data-bind="text: correct"></td>
-                            <td class="col-md-4" data-bind="text: explain1"></td>
+<!--                             <td class="col-md-4" data-bind="text: explain1"></td>
                             <td class="col-md-4" data-bind="text: explain2"></td>
                             <td class="col-md-4" data-bind="text: explain3"></td>
                             <td class="col-md-4" data-bind="text: explain4"></td>
@@ -271,27 +272,27 @@
                             <td class="col-md-4" data-bind="text: image2"></td>
                             <td class="col-md-4" data-bind="text: image3"></td>
                             <td class="col-md-4" data-bind="text: image4"></td>
-                            <td class="col-md-4" data-bind="text: page_reference"></td>
-    <!--                         <td>
-                                <button class="btn btn-link glyphicon glyphicon-remove row-remove" data-bind="click: deleteUser" value=""></button>
-                            </td> -->
+                            <td class="col-md-4" data-bind="text: page_reference"></td> -->
+                            <td class="col-md-1">
+                                <button class="btn btn-link glyphicon glyphicon-remove row-remove" data-bind="click: deleteQuestion" value="" style="text-decoration: none;"></button>
+                            </td>
                         </tr>
                         <!-- /ko -->
                     </tbody>
                 </table>
             </div>
         </div>
-
-<!--         <footer class="footer">
-            <div class="container" style="float: right">
-                <span class="prev-button">
-                    <button type="button" class="btn btn-link" data-bind="click: prev">&laquo;</button>
-                </span>
-                <span class="next-button">
-                    <button type="button" class="btn btn-link" data-bind="click: next">&raquo;</button>
-                </span>
-            </div>
-        </footer> -->
+        <div class="container">
+            <span class="prev-button">
+                <button type="button" class="btn btn-link" data-bind="click: prevQuestions" style="text-decoration: none;">&laquo;</button>
+            </span>
+            <span data-bind="text: questionsLoaded()" style="margin-left: 5px; margin-right: 5px;"></span>
+            <span> / </span>
+            <span data-bind="text: questionCount()" style="margin-left: 5px; margin-right: 5px;"></span>
+            <span class="next-button">
+                <button type="button" class="btn btn-link" data-bind="click: nextQuestions" style="text-decoration: none;">&raquo;</button>
+            </span>
+        </div>
         <!-- /ko -->
         
         <!-- /ko -->

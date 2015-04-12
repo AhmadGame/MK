@@ -171,7 +171,9 @@ MK.vm.Admin = function () {
     //****************************************
     var viewUsers = ko.observable(false);
     var users = ko.observable([]);
-    var usersStart = 0;
+    var userCount = ko.observable(0);
+    var usersLoaded = ko.observable(0);
+    var page = 1;
 
     function initViewUsers() {
         
@@ -180,7 +182,21 @@ MK.vm.Admin = function () {
         viewQuestions(false); 
         viewUsers(true);
         
+        page = 1;
         getUsers(0);
+        countUsers();
+    }
+
+    function countUsers () {
+        var query = new Parse.Query(Parse.User);
+        query.count({
+            success: function(count) {
+                userCount(count);
+            },
+            error: function(error) {
+                alert("failed to count");
+            }
+        });
     }
 
     function getUsers(skip) {
@@ -195,6 +211,7 @@ MK.vm.Admin = function () {
                 user.init(parseObject);
                 return user;
             }));
+            usersLoaded(users().length * page);
           },
           error: function(error) {
             alert("Error: " + error.code + " " + error.message);
@@ -202,12 +219,18 @@ MK.vm.Admin = function () {
         });
     }
 
-    function next () {
-        getUsers(usersStart);
+    function nextUsers () {
+        if (userCount() > users().length) {
+            getUsers(users().length * page);
+            page++;
+        };
     }
 
-    function prev () {
-        getUsers(usersStart);
+    function prevUsers () {
+        if (page > 1) {
+            page--;
+            getUsers(users().length * page);
+        }
     }
 
     //****************************************
@@ -215,7 +238,9 @@ MK.vm.Admin = function () {
     //****************************************
     var viewQuestions = ko.observable(false);
     var questions = ko.observable([]);
-    var questionsStart = 0;
+    var questionCount = ko.observable(0);
+    var questionsLoaded = ko.observable(0);
+    
     function initViewQuestions() {
         
         addUser(false); 
@@ -223,28 +248,58 @@ MK.vm.Admin = function () {
         viewQuestions(true); 
         viewUsers(false);
 
-        getQuestions(questionsStart);
+        page = 1;
+        getQuestions(0);
+        countQuestions();
     }
 
-        function getQuestions(skip) {
+    function getQuestions(skip) {
 
-            var Question = Parse.Object.extend("question");
-            var query = new Parse.Query(Question);
-            query.limit(20);
-            query.skip(skip);
-            query.find({
-              success: function(results) {
-                questions(_.map(results, function (parseObject) {
-                    var q = new MK.vm.question();
-                    q.init(parseObject);
-                    return q;
-                }));
-              },
-              error: function(error) {
-                alert("Error: " + error.code + " " + error.message);
-              }
-            });
+        var Question = Parse.Object.extend("question");
+        var query = new Parse.Query(Question);
+        query.limit(20);
+        query.skip(skip);
+        query.find({
+          success: function(results) {
+            questions(_.map(results, function (parseObject) {
+                var q = new MK.vm.question();
+                q.init(parseObject);
+                return q;
+            }));
+            questionsLoaded(questions().length * page);
+          },
+          error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+    }
+
+    function countQuestions () {
+        var Questions = Parse.Object.extend("question");
+        var query = new Parse.Query(Questions);
+        query.count({
+            success: function(count) {
+                questionCount(count);
+            },
+            error: function(error) {
+                alert("failed to count");
+            }
+        });
+    }
+
+    function nextQuestions () {
+        if (questionCount() > questions().length) {
+            getQuestions(questions().length * page);
+            page++;
+        };
+    }
+
+    function prevQuestions () {
+        if (page > 0) {
+            page--;
+            getQuestions(questions().length * page);
         }
+    }
 
     return {
         loggedIn: loggedIn,
@@ -281,12 +336,18 @@ MK.vm.Admin = function () {
         viewQuestions: viewQuestions,
         initViewQuestions: initViewQuestions,
         questions: questions,
+        nextQuestions: nextQuestions,
+        prevQuestions: prevQuestions,
+        questionCount: questionCount,
+        questionsLoaded: questionsLoaded,
 
         viewUsers: viewUsers,
         initViewUsers: initViewUsers,
         users: users,
-        next: next,
-        prev: prev
+        nextUsers: nextUsers,
+        prevUsers: prevUsers,
+        userCount: userCount,
+        usersLoaded: usersLoaded
     }
 }
 
@@ -301,7 +362,29 @@ MK.vm.user = function() {
     }
 
     function deleteUser () {
-        alert("deleted");
+        // ***TODO
+        var query = new Parse.Query(Parse.User);
+        query.equalTo("name", self.name);
+        query.equalTo("email", self.email);
+        query.first({
+          success: function(myObj) {
+               myObj.destroy({
+                success: function(myObject) {
+                    // The object was deleted from the Parse Cloud.
+                    alert("deleted");
+                },
+                error: function(myObject, error) {
+                    // The delete failed.
+                    // error is a Parse.Error with an error code and message.
+                    alert("not deleted");
+
+                }
+            });
+          },
+          error: function(myObj, error) {
+            alert("user not found");
+          }
+        });
     }
 
     this.name = name;
