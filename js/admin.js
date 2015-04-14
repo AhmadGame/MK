@@ -77,12 +77,26 @@ MK.vm.Admin = function () {
         question.save(null, {
           success: function(question) {
             // Execute any logic that should take place after the object is saved.
-            alert('Question saved');
+            alert('Frågan har sparats!');
+            title('');
+            answer1('');
+            answer2('');
+            answer3('');
+            answer4('');
+            correct('');
+            explain1('');
+            explain2('');
+            explain3('');
+            explain4('');
+            image1('');
+            image2('');
+            image3('');
+            image4('');
+            page_reference('');
+        
           },
           error: function(question, error) {
-            // Execute any logic that should take place if the save fails.
-            // error is a Parse.Error with an error code and message.
-            alert('Failed to create new object, with error code: ' + error.message);
+            alert("Error: " + error.code + " " + error.message);
           }
         });
     }
@@ -114,7 +128,12 @@ MK.vm.Admin = function () {
 
         user.signUp(null, {
           success: function(user) {
-            alert("Success!")
+            alert("Användaren har sparats!");
+
+            userEmail('');
+            userPassword('');
+            userEmail('');
+            userName('');
           },
           error: function(user, error) {
             errorAlert("Error: " + error.code + " " + error.message);
@@ -194,7 +213,7 @@ MK.vm.Admin = function () {
                 userCount(count);
             },
             error: function(error) {
-                alert("failed to count");
+                alert("Error: " + error.code + " " + error.message);
             }
         });
     }
@@ -282,7 +301,7 @@ MK.vm.Admin = function () {
                 questionCount(count);
             },
             error: function(error) {
-                alert("failed to count");
+                alert("Error: " + error.code + " " + error.message);
             }
         });
     }
@@ -362,7 +381,6 @@ MK.vm.user = function() {
     }
 
     function deleteUser () {
-        // ***TODO
         var query = new Parse.Query(Parse.User);
         query.equalTo("name", self.name);
         query.equalTo("email", self.email);
@@ -370,19 +388,15 @@ MK.vm.user = function() {
           success: function(myObj) {
                myObj.destroy({
                 success: function(myObject) {
-                    // The object was deleted from the Parse Cloud.
-                    alert("deleted");
+                    alert("Användaren har tagits bort!");
                 },
                 error: function(myObject, error) {
-                    // The delete failed.
-                    // error is a Parse.Error with an error code and message.
-                    alert("not deleted");
-
+                    alert("Error: " + error.code + " " + error.message);
                 }
             });
           },
           error: function(myObj, error) {
-            alert("user not found");
+            alert("Error: " + error.code + " " + error.message);
           }
         });
     }
