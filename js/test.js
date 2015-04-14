@@ -186,15 +186,19 @@ MK.vm.Test = function () {
         anyMistakes(_.any(questions(), function (q) {
             return !q.answeredCorrectly;
         }));
-        var correctCount = _.dropWhile(questions(), function (q) {
-            return !q.answeredCorrectly;
+
+        var correctCount = _.filter(questions(), function (q) {
+            return q.answeredCorrectly;
         }).length;
 
         var correctPercent = (correctCount / questions().length) * 100;
-        if (correctPercent > 80) {
+        if (correctPercent >= 80) {
             result("Du är Godkänd! Du hade" + correctPercent + "% rätt!");
+            $('#resultText').style.color = "rgb(14, 157, 14);";
+
         } else {
-            result("Du är inte Godkänd! :( Men du hade " + correctPercent + "% rätt");
+            result("Du är inte Godkänd :( Men du hade " + correctPercent + "% rätt.");
+            $('#resultText').style.color = "red";
         }
 
         done(false);

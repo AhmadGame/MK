@@ -271,9 +271,9 @@
         <div id="Result">
             <div class="jumbotron head result">
                 <div class="container">
-                    <h2 data-bind="text: result()"></h2>
+                    <h2 id="resultText" data-bind="text: result()"></h2>
                     <!-- ko if: !anyMistakes() -->
-                    <h2>Vilken sjärna som hade alla rätt ;)</h2>
+                    <h2 style="color: rgb(14, 157, 14);">Grattis! du hade alla rätt :)</h2>
                     <!-- /ko-->
                 </div>
             </div>
