@@ -4,11 +4,11 @@ MK.vm = {};
 
 MK.vm.Test = function () {
     var loggedIn = ko.observable(false);
-
+    // *******************************************
     // not logged in
+    //*******************************************
     var email = ko.observable(""),
-        password = ko.observable(""),
-        recover = ko.observable(false);
+        password = ko.observable("");
 
     function login() {
         Parse.User.logIn(email(), password(), {
@@ -16,42 +16,6 @@ MK.vm.Test = function () {
             loggedIn(true);
           },
           error: function(user, error) {
-            customAlert("danger", "Error: " + error.code + " " + error.message);
-          }
-        });
-    }
-
-    function recoverPassword() {
-        recover(true);
-        resetAlerts();
-    }
-
-    function resetPassword() {
-        resetAlerts();
-        password("");
-        var query = new Parse.Query(Parse.User);
-
-        query.equalTo("username", email());
-        query.limit(1);
-        query.find({
-          success: function(results) {
-            var user = results[0];
-            if (!user) {
-                customAlert("danger", "Error: User " + email() + " not found");
-            }
-            user.set("password", "potatis");
-
-            user.save(null, {
-              success: function(user) {
-                recover(false);
-                customAlert("info", "Ditt lösenord är återställt till: <strong>potatis</strong>");
-              },
-              error: function(user, error) {
-                customAlert("danger", "Error: " + error.code + " " + error.message);
-              }
-            });
-          },
-          error: function(error) {
             customAlert("danger", "Error: " + error.code + " " + error.message);
           }
         });
@@ -67,8 +31,9 @@ MK.vm.Test = function () {
         $('#alerts').replaceWith('<div id="alerts"></div>');
     }
 
+    //******************************************
     // logged in
-
+    // *****************************************
     var questions = ko.observable([]),
         activeIndex = ko.observable(0),
         activeQuestion = ko.observable(null),
@@ -80,6 +45,49 @@ MK.vm.Test = function () {
         doneDone = ko.observable(false),
         anyMistakes = ko.observable(false),
         result = ko.observable('');
+
+
+    function takeTest() {
+        if (numberOfQuestions() <= 0) {
+            customAlert("warning", "Ange antalet frågor du vill besvara.");
+            return;
+        }
+        settingsVisible(false);
+
+        // ** TODO: Fix with index
+        getRandomTest();
+    }
+
+    function getRandomTest () {
+        var Question = Parse.Object.extend("question");
+        var query = new Parse.Query(Question);
+        query.count({
+            success: function (count) {
+                var results = [];
+                var i;
+                for (i = 0; i < numberOfQuestions(); i++) {
+                    var query = new Parse.Query(Question);
+                    var random = Math.floor(Math.random() * count);
+                    query.skip(random);
+                    query.limit(1);
+                    query.first({
+                      success: function(myObj) {
+                        results.push(myObj);
+                        if (results.length == numberOfQuestions()) {
+                            init(results);
+                        };
+                      },
+                      error: function(myObj, error) {
+                        customAlert("danger", "Error: " + error.code + " " + error.message);
+                      }
+                    });
+                }
+            },
+            error: function (error) {
+                customAlert("danger", "Error: " + error.code + " " + error.message);
+            }
+        })
+    }
 
     function next() {
         activeQuestion().setAnswer(getUserAnswer());
@@ -133,48 +141,6 @@ MK.vm.Test = function () {
 
     function mark() {
         activeQuestion().marked(true);
-    }
-
-    function takeTest() {
-        if (numberOfQuestions() <= 0) {
-            customAlert("warning", "Ange antalet frågor du vill besvara.");
-            return;
-        }
-        settingsVisible(false);
-
-        // ** TODO: Fix with index
-        getRandomTest();
-    }
-
-    function getRandomTest () {
-        var Question = Parse.Object.extend("question");
-        var query = new Parse.Query(Question);
-        query.count({
-            success: function (count) {
-                var results = [];
-                var i;
-                for (i = 0; i < numberOfQuestions(); i++) {
-                    var query = new Parse.Query(Question);
-                    var random = Math.floor(Math.random() * count);
-                    query.skip(random);
-                    query.limit(1);
-                    query.first({
-                      success: function(myObj) {
-                        results.push(myObj);
-                        if (results.length == numberOfQuestions()) {
-                            init(results);
-                        };
-                      },
-                      error: function(myObj, error) {
-                        customAlert("danger", "Error: " + error.code + " " + error.message);
-                      }
-                    });
-                }
-            },
-            error: function (error) {
-                customAlert("danger", "Error: " + error.code + " " + error.message);
-            }
-        })
     }
 
     function showSummary() {
@@ -237,10 +203,6 @@ MK.vm.Test = function () {
         email: email,
         password: password,
         login: login,
-        recover: recover,
-        recoverPassword: recoverPassword,
-        resetPassword: resetPassword,
-
         questions: questions,
         activeQuestion: activeQuestion,
         activeIndex: activeIndex,
