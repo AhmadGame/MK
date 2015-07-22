@@ -5,54 +5,6 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
-        /*copy: {
-            app: {
-                files: [{
-                    expand: true,
-                    cwd: './MK.Service/Web/Views/',
-                    src: ['**'], // includes files within path and its sub-directories
-                    dest: './MK.ConsoleHost/bin/Debug/Web/Views'
-                }]
-            }
-        },
-
-        less: {
-            app: {
-                options: {
-                    ieCompat: false
-                },
-                files: {
-                    "MK.Service/Web/Views/static/css/main.css": "MK.Service/Web/Views/static/css/main.less"
-                }
-            },
-            admin: {
-                options: {
-                    ieCompat: false
-                },
-                files: {
-                    "MK.Service/Web/Views/static/css/admin.css": "MK.Service/Web/Views/static/css/admin.less"
-                }
-            }
-        },
-
-        watch: {
-            less: {
-                files: ['./MK.Service/Web/Views/static/css/*.less'],
-                tasks: ['less:app', 'less:admin'],
-                options: {
-                    spawn: false,
-                }
-            },
-            appViews: {
-                files: ['./MK.Service/Web/Views/**'],
-                tasks: ['copy'],
-                options: {
-                    spawn: false,
-                }
-            }
-        },*/
-
         jshint: {
             appFiles: [
                 '/js/*.js'

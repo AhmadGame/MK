@@ -3,7 +3,9 @@ var MK = MK || {};
 MK.vm = {};
 
 MK.vm.Test = function () {
-    var loggedIn = ko.observable(false);
+
+    var currentUser = ko.observable(Parse.User.current());
+
     // *******************************************
     // not logged in
     //*******************************************
@@ -13,12 +15,18 @@ MK.vm.Test = function () {
     function login() {
         Parse.User.logIn(email(), password(), {
           success: function(user) {
-            loggedIn(true);
+            currentUser(user);
           },
           error: function(user, error) {
             customAlert("danger", "Error: " + error.code + " " + error.message);
           }
         });
+    }
+
+    function logout() {
+        Parse.User.logOut();
+        currentUser(null);
+        password("");
     }
 
     function customAlert(type, message) {
@@ -40,7 +48,6 @@ MK.vm.Test = function () {
         nextQuestion = ko.observable(null),
         previousQuestion = ko.observable(null),
         settingsVisible = ko.observable(true),
-        numberOfQuestions = ko.observable(10),
         done = ko.observable(false),
         doneDone = ko.observable(false),
         anyMistakes = ko.observable(false),
@@ -48,45 +55,32 @@ MK.vm.Test = function () {
 
 
     function takeTest() {
-        if (numberOfQuestions() <= 0) {
-            customAlert("warning", "Ange antalet frågor du vill besvara.");
-            return;
-        }
-        settingsVisible(false);
+        // Get user position.
+        var userFolder = currentUser().get("folder");
+        var userQuestion = currentUser().get("question");
 
-        // ** TODO: Fix with index
-        getRandomTest();
+        // Get questions from that folder.
+        getFolder(userFolder);
+        
+        // set activeQuestion
+        activeIndex(userQuestion);
+        activeQuestion(questions[userQuestion]);
+
+        settingsVisible(false);
     }
 
-    function getRandomTest () {
+    function getFolder(folder) {
         var Question = Parse.Object.extend("question");
         var query = new Parse.Query(Question);
-        query.count({
-            success: function (count) {
-                var results = [];
-                var i;
-                for (i = 0; i < numberOfQuestions(); i++) {
-                    var query = new Parse.Query(Question);
-                    var random = Math.floor(Math.random() * count);
-                    query.skip(random);
-                    query.limit(1);
-                    query.first({
-                      success: function(myObj) {
-                        results.push(myObj);
-                        if (results.length == numberOfQuestions()) {
-                            init(results);
-                        };
-                      },
-                      error: function(myObj, error) {
-                        customAlert("danger", "Error: " + error.code + " " + error.message);
-                      }
-                    });
-                }
+        query.equalTo("folder", folder);
+        query.find({
+            success: function (results) {
+                init(results);
             },
             error: function (error) {
                 customAlert("danger", "Error: " + error.code + " " + error.message);
             }
-        })
+        });
     }
 
     function next() {
@@ -199,7 +193,8 @@ MK.vm.Test = function () {
         nextQuestion(questions()[activeIndex() + 1]);
     }
     return {
-        loggedIn: loggedIn,
+        currentUser: currentUser,
+        logout: logout,
         email: email,
         password: password,
         login: login,
@@ -212,7 +207,6 @@ MK.vm.Test = function () {
         prev: prev,
         mark: mark,
         settingsVisible: settingsVisible,
-        numberOfQuestions: numberOfQuestions,
         takeTest: takeTest,
         done: done,
         doneDone: doneDone,

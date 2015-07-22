@@ -48,6 +48,8 @@ MK.vm.Admin = function () {
         user.set("password", userPassword());
         user.set("email", userEmail());
         user.set("name", userName());
+        user.set("folder", 1);
+        user.set("question", 1);
 
         user.signUp(null, {
           success: function(user) {
