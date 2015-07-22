@@ -5,7 +5,9 @@ MK.vm = {};
 MK.vm.Test = function () {
 
     var currentUser = ko.observable(Parse.User.current());
-
+    var userFolder = ko.observable(currentUser().get("folder"));
+    var userQuestion = ko.observable(currentUser().get("question"));
+    var getStartedText = "Välkommen tillbaka, du är på fråga nr. " + userQuestion() + " i mapp nr. " + userFolder();
     // *******************************************
     // not logged in
     //*******************************************
@@ -55,24 +57,15 @@ MK.vm.Test = function () {
 
 
     function takeTest() {
-        // Get user position.
-        var userFolder = currentUser().get("folder");
-        var userQuestion = currentUser().get("question");
-
         // Get questions from that folder.
-        getFolder(userFolder);
-        
-        // set activeQuestion
-        activeIndex(userQuestion);
-        activeQuestion(questions[userQuestion]);
-
+        getQuestions();
         settingsVisible(false);
     }
 
-    function getFolder(folder) {
+    function getQuestions() {
         var Question = Parse.Object.extend("question");
         var query = new Parse.Query(Question);
-        query.equalTo("folder", folder);
+        query.equalTo("folder", userFolder());
         query.find({
             success: function (results) {
                 init(results);
@@ -170,6 +163,9 @@ MK.vm.Test = function () {
         activeIndex(0);
         activeQuestion(questions()[activeIndex()]);
         nextQuestion(questions()[activeIndex() + 1]);
+        if (activeIndex() > 0) {
+            previousQuestion(questions()[activeIndex() - 1]);
+        }
     }
 
     function newTest() {
@@ -188,11 +184,15 @@ MK.vm.Test = function () {
             questions()[i].index = i;
         }
 
-        activeIndex(0);
-        activeQuestion(questions()[activeIndex()]);
+        activeIndex(userQuestion());
+        activeQuestion(questions()[userQuestion()]);
         nextQuestion(questions()[activeIndex() + 1]);
+        if (activeIndex() > 0) {
+            previousQuestion(questions()[activeIndex() - 1]);
+        }
     }
     return {
+        getStartedText: getStartedText,
         currentUser: currentUser,
         logout: logout,
         email: email,
