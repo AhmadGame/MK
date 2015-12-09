@@ -1,0 +1,1024 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{54A40650-9A21-498F-BA64-E3C81F21B208}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mk</RootNamespace>
+    <AssemblyName>Mk</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.0.4.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.0.4\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Mappers\AccountMapper.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Mappers\FolderMapper.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Folder.cs" />
+    <Compile Include="Models\Question.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Mappers\QuestionMapper.cs" />
+    <Compile Include="Stores\AccountStore.cs" />
+    <Compile Include="Stores\FolderStore.cs" />
+    <Compile Include="Stores\QuestionStore.cs" />
+    <Compile Include="Stores\Store.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\FolderListViewModel.cs" />
+    <Compile Include="ViewModels\FolderViewModel.cs" />
+    <Compile Include="ViewModels\QuestionIoModel.cs" />
+    <Compile Include="ViewModels\QuestionViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="images\0036.jpg" />
+    <Content Include="images\0056.jpg" />
+    <Content Include="images\0056_big.jpg" />
+    <Content Include="images\0058.jpg" />
+    <Content Include="images\0058_big.jpg" />
+    <Content Include="images\0059.jpg" />
+    <Content Include="images\0059_big.jpg" />
+    <Content Include="images\0061.jpg" />
+    <Content Include="images\0061_big.jpg" />
+    <Content Include="images\0062.jpg" />
+    <Content Include="images\0062_big.jpg" />
+    <Content Include="images\0063.jpg" />
+    <Content Include="images\0063_big.jpg" />
+    <Content Include="images\0064.jpg" />
+    <Content Include="images\0064_big.jpg" />
+    <Content Include="images\0065.jpg" />
+    <Content Include="images\0065_big.jpg" />
+    <Content Include="images\0067.jpg" />
+    <Content Include="images\0067_big.jpg" />
+    <Content Include="images\0068.jpg" />
+    <Content Include="images\0068_big.jpg" />
+    <Content Include="images\0069.gif" />
+    <Content Include="images\063.jpg" />
+    <Content Include="images\0947.gif" />
+    <Content Include="images\0948.jpg" />
+    <Content Include="images\0948_big.jpg" />
+    <Content Include="images\0950.jpg" />
+    <Content Include="images\0950_big.jpg" />
+    <Content Include="images\0951.gif" />
+    <Content Include="images\0956.jpg" />
+    <Content Include="images\0956_big.jpg" />
+    <Content Include="images\0957.jpg" />
+    <Content Include="images\0957_big.jpg" />
+    <Content Include="images\0959.jpg" />
+    <Content Include="images\0959_big.jpg" />
+    <Content Include="images\0961.jpg" />
+    <Content Include="images\0961_big.jpg" />
+    <Content Include="images\0962.jpg" />
+    <Content Include="images\0962_big.jpg" />
+    <Content Include="images\0963.jpg" />
+    <Content Include="images\0963_big.jpg" />
+    <Content Include="images\0964.jpg" />
+    <Content Include="images\0964_big.jpg" />
+    <Content Include="images\0965.jpg" />
+    <Content Include="images\0965_big.jpg" />
+    <Content Include="images\0966.jpg" />
+    <Content Include="images\0966_big.jpg" />
+    <Content Include="images\0967.jpg" />
+    <Content Include="images\0967_big.jpg" />
+    <Content Include="images\0968A.jpg" />
+    <Content Include="images\0968A_big.jpg" />
+    <Content Include="images\0968B.jpg" />
+    <Content Include="images\0968B_big.jpg" />
+    <Content Include="images\0968C.jpg" />
+    <Content Include="images\0968C_big.jpg" />
+    <Content Include="images\0970A.jpg" />
+    <Content Include="images\0970A_big.jpg" />
+    <Content Include="images\0970B.jpg" />
+    <Content Include="images\0970B_big.jpg" />
+    <Content Include="images\0970C.jpg" />
+    <Content Include="images\0970C_big.jpg" />
+    <Content Include="images\1 51.gif" />
+    <Content Include="images\143.GIF" />
+    <Content Include="images\144.gif" />
+    <Content Include="images\145.gif" />
+    <Content Include="images\146.gif" />
+    <Content Include="images\147.gif" />
+    <Content Include="images\148.jpg" />
+    <Content Include="images\148_big.jpg" />
+    <Content Include="images\149.gif" />
+    <Content Include="images\149A.gif" />
+    <Content Include="images\150.gif" />
+    <Content Include="images\150B.gif" />
+    <Content Include="images\151.gif" />
+    <Content Include="images\152.jpg" />
+    <Content Include="images\153.jpg" />
+    <Content Include="images\153_big.jpg" />
+    <Content Include="images\154.jpg" />
+    <Content Include="images\154_big.jpg" />
+    <Content Include="images\155.jpg" />
+    <Content Include="images\155_big.jpg" />
+    <Content Include="images\156.jpg" />
+    <Content Include="images\156_big.jpg" />
+    <Content Include="images\157.jpg" />
+    <Content Include="images\157_big.jpg" />
+    <Content Include="images\158.jpg" />
+    <Content Include="images\158_big.jpg" />
+    <Content Include="images\159.jpg" />
+    <Content Include="images\159_big.jpg" />
+    <Content Include="images\161.jpg" />
+    <Content Include="images\161_big.jpg" />
+    <Content Include="images\162.jpg" />
+    <Content Include="images\162_big.jpg" />
+    <Content Include="images\163.jpg" />
+    <Content Include="images\163_big.jpg" />
+    <Content Include="images\165.jpg" />
+    <Content Include="images\165_big.jpg" />
+    <Content Include="images\166.jpg" />
+    <Content Include="images\166_big.jpg" />
+    <Content Include="images\167.jpg" />
+    <Content Include="images\167_big.jpg" />
+    <Content Include="images\168.jpg" />
+    <Content Include="images\168_big.jpg" />
+    <Content Include="images\169.jpg" />
+    <Content Include="images\169_big.jpg" />
+    <Content Include="images\170a.jpg" />
+    <Content Include="images\170b.jpg" />
+    <Content Include="images\170c.jpg" />
+    <Content Include="images\170d.jpg" />
+    <Content Include="images\2 39.gif" />
+    <Content Include="images\20205.gif" />
+    <Content Include="images\20651.gif" />
+    <Content Include="images\20657.jpg" />
+    <Content Include="images\20657_big.jpg" />
+    <Content Include="images\20660.jpg" />
+    <Content Include="images\20660_big.jpg" />
+    <Content Include="images\20861.jpg" />
+    <Content Include="images\20861_big.jpg" />
+    <Content Include="images\2122.gif" />
+    <Content Include="images\2124.gif" />
+    <Content Include="images\2129.jpg" />
+    <Content Include="images\2141.gif" />
+    <Content Include="images\2142.gif" />
+    <Content Include="images\2144.gif" />
+    <Content Include="images\2245.gif" />
+    <Content Include="images\2341a.gif" />
+    <Content Include="images\2341b.gif" />
+    <Content Include="images\2341c.gif" />
+    <Content Include="images\2341d.gif" />
+    <Content Include="images\2343.jpg" />
+    <Content Include="images\2344.jpg" />
+    <Content Include="images\239.gif" />
+    <Content Include="images\239.jpg" />
+    <Content Include="images\239_big.jpg" />
+    <Content Include="images\240.gif" />
+    <Content Include="images\241.gif" />
+    <Content Include="images\241s.gif" />
+    <Content Include="images\242.gif" />
+    <Content Include="images\243.gif" />
+    <Content Include="images\2448.gif" />
+    <Content Include="images\245.jpg" />
+    <Content Include="images\245_big.jpg" />
+    <Content Include="images\246.jpg" />
+    <Content Include="images\247.jpg" />
+    <Content Include="images\247_big.jpg" />
+    <Content Include="images\248.jpg" />
+    <Content Include="images\248_big.jpg" />
+    <Content Include="images\249.jpg" />
+    <Content Include="images\249_big.jpg" />
+    <Content Include="images\251.jpg" />
+    <Content Include="images\251_big.jpg" />
+    <Content Include="images\252.jpg" />
+    <Content Include="images\2521.gif" />
+    <Content Include="images\252_big.jpg" />
+    <Content Include="images\254.jpg" />
+    <Content Include="images\2544.jpg" />
+    <Content Include="images\254_big.jpg" />
+    <Content Include="images\2550.jpg" />
+    <Content Include="images\256.jpg" />
+    <Content Include="images\257.jpg" />
+    <Content Include="images\259.jpg" />
+    <Content Include="images\259_big.jpg" />
+    <Content Include="images\260.jpg" />
+    <Content Include="images\260_big.jpg" />
+    <Content Include="images\261.gif" />
+    <Content Include="images\262.jpg" />
+    <Content Include="images\262_big.jpg" />
+    <Content Include="images\266.jpg" />
+    <Content Include="images\266_big.jpg" />
+    <Content Include="images\267.jpg" />
+    <Content Include="images\267_big.jpg" />
+    <Content Include="images\268.jpg" />
+    <Content Include="images\268_big.jpg" />
+    <Content Include="images\269.jpg" />
+    <Content Include="images\269_big.jpg" />
+    <Content Include="images\270.jpg" />
+    <Content Include="images\270_big.jpg" />
+    <Content Include="images\3 44.gif" />
+    <Content Include="images\3 56.gif" />
+    <Content Include="images\3121.jpg" />
+    <Content Include="images\342.jpg" />
+    <Content Include="images\342_big.jpg" />
+    <Content Include="images\343.jpg" />
+    <Content Include="images\343_big.jpg" />
+    <Content Include="images\344.jpg" />
+    <Content Include="images\344_big.jpg" />
+    <Content Include="images\345 w.jpg" />
+    <Content Include="images\345 w_big.jpg" />
+    <Content Include="images\345.jpg" />
+    <Content Include="images\345_big.jpg" />
+    <Content Include="images\346.jpg" />
+    <Content Include="images\347.gif" />
+    <Content Include="images\347.jpg" />
+    <Content Include="images\348.gif" />
+    <Content Include="images\349.gif" />
+    <Content Include="images\350.gif" />
+    <Content Include="images\351.jpg" />
+    <Content Include="images\352.jpg" />
+    <Content Include="images\3521.jpg" />
+    <Content Include="images\352_big.jpg" />
+    <Content Include="images\353.jpg" />
+    <Content Include="images\353_big.jpg" />
+    <Content Include="images\354.jpg" />
+    <Content Include="images\354_big.jpg" />
+    <Content Include="images\355.jpg" />
+    <Content Include="images\355_big.jpg" />
+    <Content Include="images\356.jpg" />
+    <Content Include="images\356_big.jpg" />
+    <Content Include="images\357.jpg" />
+    <Content Include="images\357_big.jpg" />
+    <Content Include="images\358.gif" />
+    <Content Include="images\360.gif" />
+    <Content Include="images\361.jpg" />
+    <Content Include="images\361_big.jpg" />
+    <Content Include="images\362.jpg" />
+    <Content Include="images\362_big.jpg" />
+    <Content Include="images\363.gif" />
+    <Content Include="images\364.jpg" />
+    <Content Include="images\364_big.jpg" />
+    <Content Include="images\365.jpg" />
+    <Content Include="images\365_big.jpg" />
+    <Content Include="images\367.jpg" />
+    <Content Include="images\368.gif" />
+    <Content Include="images\369.jpg" />
+    <Content Include="images\369_big.jpg" />
+    <Content Include="images\370.jpg" />
+    <Content Include="images\370_big.jpg" />
+    <Content Include="images\4 70.gif" />
+    <Content Include="images\441.jpg" />
+    <Content Include="images\441_big.jpg" />
+    <Content Include="images\442.gif" />
+    <Content Include="images\443.jpg" />
+    <Content Include="images\443_big.jpg" />
+    <Content Include="images\444.gif" />
+    <Content Include="images\445.gif" />
+    <Content Include="images\446.gif" />
+    <Content Include="images\446a.gif" />
+    <Content Include="images\446a_big.gif" />
+    <Content Include="images\447.gif" />
+    <Content Include="images\448.gif" />
+    <Content Include="images\449.gif" />
+    <Content Include="images\450a.gif" />
+    <Content Include="images\450b.gif" />
+    <Content Include="images\450c.gif" />
+    <Content Include="images\450d.gif" />
+    <Content Include="images\450e.gif" />
+    <Content Include="images\451.gif" />
+    <Content Include="images\452.jpg" />
+    <Content Include="images\452_big.jpg" />
+    <Content Include="images\453.jpg" />
+    <Content Include="images\453_big.jpg" />
+    <Content Include="images\454.jpg" />
+    <Content Include="images\455.gif" />
+    <Content Include="images\456.jpg" />
+    <Content Include="images\456_big.jpg" />
+    <Content Include="images\457.jpg" />
+    <Content Include="images\457_big.jpg" />
+    <Content Include="images\458.gif" />
+    <Content Include="images\459.gif" />
+    <Content Include="images\460.jpg" />
+    <Content Include="images\460_big.jpg" />
+    <Content Include="images\461.jpg" />
+    <Content Include="images\461_big.jpg" />
+    <Content Include="images\462.jpg" />
+    <Content Include="images\462_big.jpg" />
+    <Content Include="images\463.jpg" />
+    <Content Include="images\463_big.jpg" />
+    <Content Include="images\464.jpg" />
+    <Content Include="images\465.jpg" />
+    <Content Include="images\465_big.jpg" />
+    <Content Include="images\466.jpg" />
+    <Content Include="images\466_big.jpg" />
+    <Content Include="images\467.gif" />
+    <Content Include="images\468.jpg" />
+    <Content Include="images\468_big.jpg" />
+    <Content Include="images\469.jpg" />
+    <Content Include="images\469_big.jpg" />
+    <Content Include="images\470.jpg" />
+    <Content Include="images\470_big.jpg" />
+    <Content Include="images\5 48.gif" />
+    <Content Include="images\5 53.gif" />
+    <Content Include="images\5101.jpg" />
+    <Content Include="images\5101_big.jpg" />
+    <Content Include="images\5102.jpg" />
+    <Content Include="images\5102_big.jpg" />
+    <Content Include="images\5131.gif" />
+    <Content Include="images\5154.jpg" />
+    <Content Include="images\5155.jpg" />
+    <Content Include="images\5155_big.jpg" />
+    <Content Include="images\5159.jpg" />
+    <Content Include="images\5159_big.jpg" />
+    <Content Include="images\5160.gif" />
+    <Content Include="images\5162a.gif" />
+    <Content Include="images\5162b.gif" />
+    <Content Include="images\5162c.gif" />
+    <Content Include="images\5166.gif" />
+    <Content Include="images\5169.jpg" />
+    <Content Include="images\5169_big.jpg" />
+    <Content Include="images\5170.jpg" />
+    <Content Include="images\5170_big.jpg" />
+    <Content Include="images\5204.jpg" />
+    <Content Include="images\5233.gif" />
+    <Content Include="images\5241.gif" />
+    <Content Include="images\5245.gif" />
+    <Content Include="images\5247.jpg" />
+    <Content Include="images\5247_big.jpg" />
+    <Content Include="images\5250.jpg" />
+    <Content Include="images\5250_big.jpg" />
+    <Content Include="images\5251.gif" />
+    <Content Include="images\5253.gif" />
+    <Content Include="images\5259.jpg" />
+    <Content Include="images\5259_big.jpg" />
+    <Content Include="images\5260.gif" />
+    <Content Include="images\5265.jpg" />
+    <Content Include="images\5269.jpg" />
+    <Content Include="images\5269_big.jpg" />
+    <Content Include="images\532.gif" />
+    <Content Include="images\5350D.gif" />
+    <Content Include="images\5353.jpg" />
+    <Content Include="images\5353_big.jpg" />
+    <Content Include="images\5354.gif" />
+    <Content Include="images\5356.gif" />
+    <Content Include="images\5360a.jpg" />
+    <Content Include="images\5360a_big.jpg" />
+    <Content Include="images\5360b.jpg" />
+    <Content Include="images\5360b_big.jpg" />
+    <Content Include="images\5360c.jpg" />
+    <Content Include="images\5360c_big.jpg" />
+    <Content Include="images\5360d.jpg" />
+    <Content Include="images\5360d_big.jpg" />
+    <Content Include="images\5361.jpg" />
+    <Content Include="images\5361_big.jpg" />
+    <Content Include="images\5362.jpg" />
+    <Content Include="images\5362_big.jpg" />
+    <Content Include="images\5363.jpg" />
+    <Content Include="images\5363_big.jpg" />
+    <Content Include="images\5370.jpg" />
+    <Content Include="images\5370_big.jpg" />
+    <Content Include="images\5423.jpg" />
+    <Content Include="images\5443.jpg" />
+    <Content Include="images\5443_big.jpg" />
+    <Content Include="images\5444.gif" />
+    <Content Include="images\5452.gif" />
+    <Content Include="images\5459.jpg" />
+    <Content Include="images\5459_big.jpg" />
+    <Content Include="images\546.gif" />
+    <Content Include="images\5462.jpg" />
+    <Content Include="images\5462_big.jpg" />
+    <Content Include="images\5463.gif" />
+    <Content Include="images\5464a.jpg" />
+    <Content Include="images\5464a_big.jpg" />
+    <Content Include="images\5464b.jpg" />
+    <Content Include="images\5464b_big.jpg" />
+    <Content Include="images\5464c.jpg" />
+    <Content Include="images\5464c_big.jpg" />
+    <Content Include="images\547.gif" />
+    <Content Include="images\548.gif" />
+    <Content Include="images\549.jpg" />
+    <Content Include="images\549_big.jpg" />
+    <Content Include="images\550.jpg" />
+    <Content Include="images\550_big.jpg" />
+    <Content Include="images\551.jpg" />
+    <Content Include="images\552.jpg" />
+    <Content Include="images\552_big.jpg" />
+    <Content Include="images\553.gif" />
+    <Content Include="images\554.jpg" />
+    <Content Include="images\555.gif" />
+    <Content Include="images\556.gif" />
+    <Content Include="images\557.gif" />
+    <Content Include="images\558.jpg" />
+    <Content Include="images\559.gif" />
+    <Content Include="images\560.jpg" />
+    <Content Include="images\561.jpg" />
+    <Content Include="images\561_big.jpg" />
+    <Content Include="images\562.jpg" />
+    <Content Include="images\562_big.jpg" />
+    <Content Include="images\563.jpg" />
+    <Content Include="images\564.gif" />
+    <Content Include="images\566a.gif" />
+    <Content Include="images\566b.gif" />
+    <Content Include="images\567.gif" />
+    <Content Include="images\568.gif" />
+    <Content Include="images\569.gif" />
+    <Content Include="images\570.gif" />
+    <Content Include="images\612a.gif" />
+    <Content Include="images\612b.gif" />
+    <Content Include="images\612c.gif" />
+    <Content Include="images\612d.gif" />
+    <Content Include="images\636.gif" />
+    <Content Include="images\640.jpg" />
+    <Content Include="images\640_big.jpg" />
+    <Content Include="images\641.gif" />
+    <Content Include="images\642.gif" />
+    <Content Include="images\643.gif" />
+    <Content Include="images\644.gif" />
+    <Content Include="images\645.jpg" />
+    <Content Include="images\645_big.jpg" />
+    <Content Include="images\646.jpg" />
+    <Content Include="images\647.jpg" />
+    <Content Include="images\647_big.jpg" />
+    <Content Include="images\648.jpg" />
+    <Content Include="images\648_big.jpg" />
+    <Content Include="images\649.jpg" />
+    <Content Include="images\649_big.jpg" />
+    <Content Include="images\650.jpg" />
+    <Content Include="images\650_big.jpg" />
+    <Content Include="images\651.gif" />
+    <Content Include="images\652.gif" />
+    <Content Include="images\653.gif" />
+    <Content Include="images\654.gif" />
+    <Content Include="images\655.jpg" />
+    <Content Include="images\655_big.jpg" />
+    <Content Include="images\656.gif" />
+    <Content Include="images\657.jpg" />
+    <Content Include="images\658.jpg" />
+    <Content Include="images\658_big.jpg" />
+    <Content Include="images\659.jpg" />
+    <Content Include="images\659_big.jpg" />
+    <Content Include="images\660.jpg" />
+    <Content Include="images\660_big.jpg" />
+    <Content Include="images\662.gif" />
+    <Content Include="images\663.jpg" />
+    <Content Include="images\663_big.jpg" />
+    <Content Include="images\664.gif" />
+    <Content Include="images\665.gif" />
+    <Content Include="images\666.jpg" />
+    <Content Include="images\666_big.jpg" />
+    <Content Include="images\667.gif" />
+    <Content Include="images\668.gif" />
+    <Content Include="images\668.jpg" />
+    <Content Include="images\669.gif" />
+    <Content Include="images\670.jpg" />
+    <Content Include="images\670_big.jpg" />
+    <Content Include="images\7 64.gif" />
+    <Content Include="images\7 66.gif" />
+    <Content Include="images\7150A.jpg" />
+    <Content Include="images\7150A_big.jpg" />
+    <Content Include="images\7150B.jpg" />
+    <Content Include="images\7150B_big.jpg" />
+    <Content Include="images\7151.jpg" />
+    <Content Include="images\7151_big.jpg" />
+    <Content Include="images\7152A.gif" />
+    <Content Include="images\7152B.gif" />
+    <Content Include="images\7152C.gif" />
+    <Content Include="images\7152D.gif" />
+    <Content Include="images\7154.jpg" />
+    <Content Include="images\7154_big.jpg" />
+    <Content Include="images\7155.jpg" />
+    <Content Include="images\7155_big.jpg" />
+    <Content Include="images\7156.jpg" />
+    <Content Include="images\7156_big.jpg" />
+    <Content Include="images\7157.jpg" />
+    <Content Include="images\7157_big.jpg" />
+    <Content Include="images\7160.gif" />
+    <Content Include="images\728.jpg" />
+    <Content Include="images\728_big.jpg" />
+    <Content Include="images\740.jpg" />
+    <Content Include="images\741.gif" />
+    <Content Include="images\742.jpg" />
+    <Content Include="images\742_big.jpg" />
+    <Content Include="images\743.jpg" />
+    <Content Include="images\743_big.jpg" />
+    <Content Include="images\744.jpg" />
+    <Content Include="images\744_big.jpg" />
+    <Content Include="images\746.gif" />
+    <Content Include="images\747.gif" />
+    <Content Include="images\748.gif" />
+    <Content Include="images\750.jpg" />
+    <Content Include="images\750_big.jpg" />
+    <Content Include="images\751.gif" />
+    <Content Include="images\753.jpg" />
+    <Content Include="images\753_big.jpg" />
+    <Content Include="images\754.jpg" />
+    <Content Include="images\754_big.jpg" />
+    <Content Include="images\755.jpg" />
+    <Content Include="images\755_big.jpg" />
+    <Content Include="images\756.jpg" />
+    <Content Include="images\756_big.jpg" />
+    <Content Include="images\757.jpg" />
+    <Content Include="images\757_big.jpg" />
+    <Content Include="images\758.jpg" />
+    <Content Include="images\758_big.jpg" />
+    <Content Include="images\759.jpg" />
+    <Content Include="images\759_big.jpg" />
+    <Content Include="images\760.jpg" />
+    <Content Include="images\760_big.jpg" />
+    <Content Include="images\761.jpg" />
+    <Content Include="images\761_big.jpg" />
+    <Content Include="images\762.jpg" />
+    <Content Include="images\762_big.jpg" />
+    <Content Include="images\763.gif" />
+    <Content Include="images\763.jpg" />
+    <Content Include="images\763_big.jpg" />
+    <Content Include="images\764.gif" />
+    <Content Include="images\765.gif" />
+    <Content Include="images\767.gif" />
+    <Content Include="images\768.gif" />
+    <Content Include="images\769a.jpg" />
+    <Content Include="images\769a_big.jpg" />
+    <Content Include="images\769b.jpg" />
+    <Content Include="images\769b_big.jpg" />
+    <Content Include="images\769c.jpg" />
+    <Content Include="images\769c_big.jpg" />
+    <Content Include="images\770.jpg" />
+    <Content Include="images\770A.jpg" />
+    <Content Include="images\770A_big.jpg" />
+    <Content Include="images\770_big.jpg" />
+    <Content Include="images\8143.jpg" />
+    <Content Include="images\8148A.jpg" />
+    <Content Include="images\8148A_big.jpg" />
+    <Content Include="images\8148B.jpg" />
+    <Content Include="images\8148B_big.jpg" />
+    <Content Include="images\8148C.jpg" />
+    <Content Include="images\8148C_big.jpg" />
+    <Content Include="images\8149.jpg" />
+    <Content Include="images\8149_big.jpg" />
+    <Content Include="images\8158.jpg" />
+    <Content Include="images\8158_big.jpg" />
+    <Content Include="images\8160.jpg" />
+    <Content Include="images\8160_big.jpg" />
+    <Content Include="images\8243.gif" />
+    <Content Include="images\8245.gif" />
+    <Content Include="images\8246.gif" />
+    <Content Include="images\8249.jpg" />
+    <Content Include="images\8249_big.jpg" />
+    <Content Include="images\8250A.jpg" />
+    <Content Include="images\8250B.jpg" />
+    <Content Include="images\8258.jpg" />
+    <Content Include="images\8258_big.jpg" />
+    <Content Include="images\8344.gif" />
+    <Content Include="images\8344_big.gif" />
+    <Content Include="images\8345.gif" />
+    <Content Include="images\8345_big.gif" />
+    <Content Include="images\8352.gif" />
+    <Content Include="images\8353A.jpg" />
+    <Content Include="images\8353A_big.jpg" />
+    <Content Include="images\8353B.jpg" />
+    <Content Include="images\8353B_big.jpg" />
+    <Content Include="images\8356.gif" />
+    <Content Include="images\8356_big.gif" />
+    <Content Include="images\8360A.gif" />
+    <Content Include="images\8360A_big.gif" />
+    <Content Include="images\8360B.gif" />
+    <Content Include="images\8360B_big.gif" />
+    <Content Include="images\8360C.gif" />
+    <Content Include="images\8360C_big.gif" />
+    <Content Include="images\842.gif" />
+    <Content Include="images\843.jpg" />
+    <Content Include="images\843_big.jpg" />
+    <Content Include="images\844.jpg" />
+    <Content Include="images\8444.jpg" />
+    <Content Include="images\8444_big.jpg" />
+    <Content Include="images\8445.jpg" />
+    <Content Include="images\8445_big.jpg" />
+    <Content Include="images\8447 2.jpg" />
+    <Content Include="images\8447 2_big.jpg" />
+    <Content Include="images\8447.jpg" />
+    <Content Include="images\8447_big.jpg" />
+    <Content Include="images\844_big.jpg" />
+    <Content Include="images\8454.jpg" />
+    <Content Include="images\8454_big.jpg" />
+    <Content Include="images\8457.jpg" />
+    <Content Include="images\8457_big.jpg" />
+    <Content Include="images\8458.jpg" />
+    <Content Include="images\8458_big.jpg" />
+    <Content Include="images\8459A.jpg" />
+    <Content Include="images\8459B.jpg" />
+    <Content Include="images\8459C.jpg" />
+    <Content Include="images\8459C_big.jpg" />
+    <Content Include="images\846.gif" />
+    <Content Include="images\8460.jpg" />
+    <Content Include="images\8460_big.jpg" />
+    <Content Include="images\848.gif" />
+    <Content Include="images\848_big.gif" />
+    <Content Include="images\851.jpg" />
+    <Content Include="images\851_big.jpg" />
+    <Content Include="images\852.gif" />
+    <Content Include="images\854.jpg" />
+    <Content Include="images\8546.jpg" />
+    <Content Include="images\8546_big.jpg" />
+    <Content Include="images\8547A.jpg" />
+    <Content Include="images\8547A_big.jpg" />
+    <Content Include="images\8547B.jpg" />
+    <Content Include="images\8547B_big.jpg" />
+    <Content Include="images\8548.jpg" />
+    <Content Include="images\8548_big.jpg" />
+    <Content Include="images\854_big.jpg" />
+    <Content Include="images\855.jpg" />
+    <Content Include="images\8556.gif" />
+    <Content Include="images\8556_big.gif" />
+    <Content Include="images\8558.gif" />
+    <Content Include="images\8558_big.gif" />
+    <Content Include="images\8559.jpg" />
+    <Content Include="images\8559_big.jpg" />
+    <Content Include="images\855_big.jpg" />
+    <Content Include="images\856.jpg" />
+    <Content Include="images\856_big.jpg" />
+    <Content Include="images\857.jpg" />
+    <Content Include="images\857_big.jpg" />
+    <Content Include="images\858.jpg" />
+    <Content Include="images\858_big.jpg" />
+    <Content Include="images\859.jpg" />
+    <Content Include="images\859_big.jpg" />
+    <Content Include="images\860.jpg" />
+    <Content Include="images\860_big.jpg" />
+    <Content Include="images\861.jpg" />
+    <Content Include="images\861_big.jpg" />
+    <Content Include="images\862.jpg" />
+    <Content Include="images\862_big.jpg" />
+    <Content Include="images\863.gif" />
+    <Content Include="images\864.gif" />
+    <Content Include="images\865.jpg" />
+    <Content Include="images\8650A.jpg" />
+    <Content Include="images\8650A_big.jpg" />
+    <Content Include="images\8650B.jpg" />
+    <Content Include="images\8650B_big.jpg" />
+    <Content Include="images\8650C.jpg" />
+    <Content Include="images\8650C_big.jpg" />
+    <Content Include="images\8650D.jpg" />
+    <Content Include="images\8650D_big.jpg" />
+    <Content Include="images\8651.jpg" />
+    <Content Include="images\8651_big.jpg" />
+    <Content Include="images\8652.jpg" />
+    <Content Include="images\8653.jpg" />
+    <Content Include="images\8653_big.jpg" />
+    <Content Include="images\8654.jpg" />
+    <Content Include="images\8654_big.jpg" />
+    <Content Include="images\8656.gif" />
+    <Content Include="images\865_big.jpg" />
+    <Content Include="images\866.jpg" />
+    <Content Include="images\866_big.jpg" />
+    <Content Include="images\867A.jpg" />
+    <Content Include="images\867A_big.jpg" />
+    <Content Include="images\867B.jpg" />
+    <Content Include="images\867B_big.jpg" />
+    <Content Include="images\867C.jpg" />
+    <Content Include="images\867C_big.jpg" />
+    <Content Include="images\868.jpg" />
+    <Content Include="images\868_big.jpg" />
+    <Content Include="images\869.gif" />
+    <Content Include="images\869A.jpg" />
+    <Content Include="images\869A_big.jpg" />
+    <Content Include="images\869B.jpg" />
+    <Content Include="images\869B_big.jpg" />
+    <Content Include="images\869C.jpg" />
+    <Content Include="images\869C_big.jpg" />
+    <Content Include="images\870.jpg" />
+    <Content Include="images\870_big.jpg" />
+    <Content Include="images\914.gif" />
+    <Content Include="images\969.gif" />
+    <Content Include="images\Arabic.png" />
+    <Content Include="images\Arbetstidsbok.gif" />
+    <Content Include="images\betalning3.html" />
+    <Content Include="images\Bild för omslag B 070514.jpg" />
+    <Content Include="images\brand.jpg" />
+    <Content Include="images\DEFAULT.JPG" />
+    <Content Include="images\Fall 10.jpg" />
+    <Content Include="images\Fall 11.gif" />
+    <Content Include="images\Fall 13.gif" />
+    <Content Include="images\Fall 15.gif" />
+    <Content Include="images\Fall 16.jpg" />
+    <Content Include="images\Fall 17.jpg" />
+    <Content Include="images\Fall 18.jpg" />
+    <Content Include="images\Fall 19.gif" />
+    <Content Include="images\Fall 20.gif" />
+    <Content Include="images\Fall 22.jpg" />
+    <Content Include="images\Fall 23.gif" />
+    <Content Include="images\Fall 24.gif" />
+    <Content Include="images\Fall 6.jpg" />
+    <Content Include="images\Fall 7.jpg" />
+    <Content Include="images\Fall 9.jpg" />
+    <Content Include="images\Fall1.jpg" />
+    <Content Include="images\Fall12.jpg" />
+    <Content Include="images\Fall14.jpg" />
+    <Content Include="images\Fall2.jpg" />
+    <Content Include="images\Fall21.jpg" />
+    <Content Include="images\Fall25.jpg" />
+    <Content Include="images\Fall3.jpg" />
+    <Content Include="images\Fall4.jpg" />
+    <Content Include="images\Fall5.jpg" />
+    <Content Include="images\Fall8.jpg" />
+    <Content Include="images\Farsi.png" />
+    <Content Include="images\favicon.ico" />
+    <Content Include="images\front.jpg" />
+    <Content Include="images\Genomskinlig.gif" />
+    <Content Include="images\k 5 53.gif" />
+    <Content Include="images\k 742a.gif" />
+    <Content Include="images\k143.gif" />
+    <Content Include="images\k144.gif" />
+    <Content Include="images\k145a.gif" />
+    <Content Include="images\k145b.gif" />
+    <Content Include="images\k158.jpg" />
+    <Content Include="images\k2124a.gif" />
+    <Content Include="images\k2124b.gif" />
+    <Content Include="images\k2124d.gif" />
+    <Content Include="images\k241.gif" />
+    <Content Include="images\K2448b.gif" />
+    <Content Include="images\k261.gif" />
+    <Content Include="images\k342.jpg" />
+    <Content Include="images\k344.gif" />
+    <Content Include="images\k347b.gif" />
+    <Content Include="images\k347c.gif" />
+    <Content Include="images\k348.gif" />
+    <Content Include="images\k350.gif" />
+    <Content Include="images\k363.gif" />
+    <Content Include="images\k433.jpg" />
+    <Content Include="images\k445.gif" />
+    <Content Include="images\k446.gif" />
+    <Content Include="images\k447c.gif" />
+    <Content Include="images\k447d.gif" />
+    <Content Include="images\k449a.gif" />
+    <Content Include="images\k449b.gif" />
+    <Content Include="images\k449c.gif" />
+    <Content Include="images\k455c.gif" />
+    <Content Include="images\k467b.gif" />
+    <Content Include="images\k467d.gif" />
+    <Content Include="images\k5131a.gif" />
+    <Content Include="images\k5131d.gif" />
+    <Content Include="images\k5351.gif" />
+    <Content Include="images\k5359.gif" />
+    <Content Include="images\k556b.gif" />
+    <Content Include="images\k746.gif" />
+    <Content Include="images\k764d.gif" />
+    <Content Include="images\k765.gif" />
+    <Content Include="images\k768a.gif" />
+    <Content Include="images\k768d.gif" />
+    <Content Include="images\k847.gif" />
+    <Content Include="images\k863b.gif" />
+    <Content Include="images\LAYOUT0.BMP" />
+    <Content Include="images\LAYOUT1.BMP" />
+    <Content Include="images\LAYOUT2.BMP" />
+    <Content Include="images\LAYOUT3.BMP" />
+    <Content Include="images\LAYOUT4.BMP" />
+    <Content Include="images\LAYOUT5.BMP" />
+    <Content Include="images\LAYOUT6.BMP" />
+    <Content Include="images\LOCK.BMP" />
+    <Content Include="images\LOCK2.BMP" />
+    <Content Include="images\login.png" />
+    <Content Include="images\Pris.jpg" />
+    <Content Include="images\Pris_big.jpg" />
+    <Content Include="images\Swedish.png" />
+    <Content Include="images\Vila01.jpg" />
+    <Content Include="images\Vila01_big.jpg" />
+    <Content Include="images\Vila02.jpg" />
+    <Content Include="images\Vila02_big.jpg" />
+    <Content Include="images\Vila03.jpg" />
+    <Content Include="images\Vila03B.jpg" />
+    <Content Include="images\Vila03B_big.jpg" />
+    <Content Include="images\Vila03_big.jpg" />
+    <Content Include="images\Vila04.jpg" />
+    <Content Include="images\Vila04_big.jpg" />
+    <Content Include="images\Vila05.jpg" />
+    <Content Include="images\Vila05_big.jpg" />
+    <Content Include="images\Vila06.jpg" />
+    <Content Include="images\Vila06_big.jpg" />
+    <Content Include="images\Vila07.jpg" />
+    <Content Include="images\Vila07_big.jpg" />
+    <Content Include="images\Vila08.jpg" />
+    <Content Include="images\Vila08_big.jpg" />
+    <Content Include="images\Vila09.jpg" />
+    <Content Include="images\Vila09_big.jpg" />
+    <Content Include="images\Vila10.jpg" />
+    <Content Include="images\Vila10_big.jpg" />
+    <Content Include="images\Vila11.jpg" />
+    <Content Include="images\Vila11_big.jpg" />
+    <Content Include="images\Vila12.jpg" />
+    <Content Include="images\Vila12_big.jpg" />
+    <Content Include="images\Vila13.jpg" />
+    <Content Include="images\Vila13_big.jpg" />
+    <Content Include="images\Vila14.jpg" />
+    <Content Include="images\Vila14_big.jpg" />
+    <Content Include="images\Vila15.jpg" />
+    <Content Include="images\Vila15_big.jpg" />
+    <Content Include="images\Vila16.jpg" />
+    <Content Include="images\Vila16_big.jpg" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\AddAccount.csHtml" />
+    <Content Include="Views\Home\AddQuestion.csHtml" />
+    <Content Include="Views\Home\Admin.csHtml" />
+    <Content Include="Views\Home\Correct.cshtml" />
+    <Content Include="Views\Home\Folder.cshtml" />
+    <Content Include="Views\Home\Folders.csHtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>29164</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:29164/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

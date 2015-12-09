@@ -1,0 +1,100 @@
+@model Mk.ViewModels.FolderViewModel
+@{
+    ViewData["Title"] = "VH trafikskola";
+}
+@using (Html.BeginForm("Correct", "Home", FormMethod.Post, new { @rolde = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.id)
+    @Html.HiddenFor(m => m.language)
+    @Html.HiddenFor(m => m.name)
+
+    <div class="page-header">
+        <h1>@Model.name</h1>
+    </div>
+
+    <ul class="list-group">
+        @{var index = 0;}
+        @foreach (var question in Model.questions)
+        {
+            <li class="list-group-item">
+                @{ var i = index;}
+                @Html.HiddenFor(m => m.questions[i].id)
+                @Html.HiddenFor(m => m.questions[i].title)
+                @Html.HiddenFor(m => m.questions[i].correct)
+                @Html.HiddenFor(m => m.questions[i].explain1)
+                @Html.HiddenFor(m => m.questions[i].explain2)
+                @Html.HiddenFor(m => m.questions[i].explain3)
+                @Html.HiddenFor(m => m.questions[i].explain4)
+                @Html.HiddenFor(m => m.questions[i].answer1)
+                @Html.HiddenFor(m => m.questions[i].answer2)
+                @Html.HiddenFor(m => m.questions[i].answer3)
+                @Html.HiddenFor(m => m.questions[i].answer4)
+
+                <div id="Question_@question.id" class="container">
+                    @*<span>@question.id</span>*@
+                    <h4>@question.title</h4>
+                    @if (!string.IsNullOrEmpty(question.image1))
+                    {
+                        <img src="@Url.Content($"~/images/{@question.image1}")" alt="image1" class="img-responsive">
+                    }
+                    @if (!string.IsNullOrEmpty(question.image2))
+                    {
+                        <img src="@Url.Content($"~/images/{@question.image2}")" alt="image2" class="img-responsive">
+                    }
+                    @if (!string.IsNullOrEmpty(question.image3))
+                    {
+                        <img src="@Url.Content($"~/images/{@question.image3}")" alt="image3" class="img-responsive">
+                    }
+                    @if (!string.IsNullOrEmpty(question.image4))
+                    {
+                        <img src="@Url.Content($"~/images/{@question.image4}")" alt="image4" class="img-responsive">
+                    }
+                </div>
+                <div id="Answers_@question.id" class="container">
+                    <div class="radio">
+                        @if (!string.IsNullOrEmpty(question.answer1))
+                        {
+                            <p>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.questions[i].selected, 1)
+                                    <span>@question.answer1</span>
+                                </label>
+                            </p>
+                        }
+                        @if (!string.IsNullOrEmpty(question.answer2))
+                        {
+                            <p>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.questions[i].selected, 2)
+                                    <span>@question.answer2</span>
+                                </label>
+                            </p>
+                        }
+                        @if (!string.IsNullOrEmpty(question.answer3))
+                        {
+                            <p>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.questions[i].selected, 3)
+                                    <span>@question.answer3</span>
+                                </label>
+                            </p>
+                        }
+                        @if (!string.IsNullOrEmpty(question.answer4))
+                        {
+                            <p>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.questions[i].selected, 4)
+                                    <span>@question.answer4</span>
+                                </label>
+                            </p>
+                        }
+                    </div>
+                </div>
+
+                @{index++;}
+            </li>
+        }
+    </ul>
+    <button type="submit" class="btn btn-primary">Correct</button>
+}

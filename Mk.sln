@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mk", "Mk\Mk.csproj", "{54A40650-9A21-498F-BA64-E3C81F21B208}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MkImporter", "MkImporter\MkImporter.csproj", "{4B59F434-B229-4893-B3A8-227299020AF1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54A40650-9A21-498F-BA64-E3C81F21B208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54A40650-9A21-498F-BA64-E3C81F21B208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54A40650-9A21-498F-BA64-E3C81F21B208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54A40650-9A21-498F-BA64-E3C81F21B208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B59F434-B229-4893-B3A8-227299020AF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B59F434-B229-4893-B3A8-227299020AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B59F434-B229-4893-B3A8-227299020AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B59F434-B229-4893-B3A8-227299020AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

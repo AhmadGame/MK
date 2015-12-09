@@ -1,0 +1,52 @@
+﻿@model Mk.ViewModels.AccountViewModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+<div class="row" style="margin-top: 5rem;">
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">Welcome</div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                {
+                    <fieldset>
+                        <div class="row">
+                            <div class="center-block">
+                                <img class="profile-img img-circle img-responsive"
+                                     src="~/images/login.png" alt="login">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-10  col-md-offset-1 ">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-envelope"></i>
+                                    </span>
+                                    @Html.TextBoxFor(m => m.email, new {@class = "form-control", @placeholder = "Email", @type = "email"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-lock"></i>
+                                    </span>
+                                    @Html.TextBoxFor(m => m.password, new {@class = "form-control", @placeholder = "Password", @type = "password"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-lg btn-primary btn-block">Log in</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                }
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.error))
+        {
+            <div class="alert alert-danger" role="alert">@Model.error</div>
+        }
+    </div>
+</div>

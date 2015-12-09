@@ -1,0 +1,22 @@
+@model Mk.ViewModels.FolderListViewModel
+@{
+    ViewData["Title"] = "VH trafikskola";
+}
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <div class="page-header">
+        <h1>Choose a folder</h1>
+    </div>
+
+    <div class="row">
+        <ul class="list-group">
+            @foreach (var folder in Model.folders)
+            {
+                <li class="list-group-item">
+                    @Html.ActionLink(folder.name, "Folder", "Home", folder)
+                </li>
+            }
+        </ul>
+    </div>
+}
