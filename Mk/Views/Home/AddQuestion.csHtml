@@ -14,7 +14,7 @@
         <h1>Add Question</h1>
     </div>
 
-@using (Html.BeginForm("AddQuestion", "Home", FormMethod.Post))
+@using (Html.BeginForm("AddQuestion", "Home", FormMethod.Post, new {@enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
     <div class="form-group">
@@ -54,7 +54,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.explain2, "Explanation 2")
-        @Html.TextBoxFor(m => m.explain2, new {@class = "form-control", @placeholder = "Explanation 2"})
+        @Html.TextBoxFor(m => m.explain2, new {@class= "form-control", @placeholder = "Explanation 2"})
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.explain3, "Explanation 3")
@@ -63,6 +63,22 @@
     <div class="form-group">
         @Html.LabelFor(m => m.explain4, "Explanation 4")
         @Html.TextBoxFor(m => m.explain4, new {@class = "form-control", @placeholder = "Explanation 4"})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.image1, "Image 1")
+        <input type="file" name="Image1" class="form-control"/>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.image1, "Image 2")
+        <input type="file" name="Image2" class="form-control"/>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.image1, "Image 3")
+        <input type="file" name="Image3" class="form-control"/>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.image1, "Image 4")
+        <input type="file" name="Image4" class="form-control" />
     </div>
     @Html.ActionLink("Cancel", "Admin", "Home", new {}, new {@class = "btn btn-default" })
     <button type="submit" class="btn btn-primary">Submit</button>

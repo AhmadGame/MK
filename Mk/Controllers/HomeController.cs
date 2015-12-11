@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Mk.Mappers;
 using Mk.Stores;
@@ -160,6 +162,7 @@ namespace Mk.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public ActionResult AddAccount()
         {
@@ -178,6 +181,7 @@ namespace Mk.Controllers
             store.Add(mapper.FromModel(account));
             return RedirectToAction("Admin");
         }
+
         [HttpGet]
         public ActionResult AddQuestion()
         {
@@ -187,6 +191,7 @@ namespace Mk.Controllers
             }
             return View(new QuestionIoModel());
         }
+
         [HttpPost]
         public ActionResult AddQuestion(QuestionIoModel question)
         {
@@ -194,12 +199,33 @@ namespace Mk.Controllers
             {
                 return View(question);
             }
+
+            question.image1 = SaveImage(WebImage.GetImageFromRequest("Image1"));
+            question.image2 = SaveImage(WebImage.GetImageFromRequest("Image2"));
+            question.image3 = SaveImage(WebImage.GetImageFromRequest("Image3"));
+            question.image4 = SaveImage(WebImage.GetImageFromRequest("Image4"));
+            
             var folderStore = new FolderStore();
             var folderId = folderStore.GetFolderToAddQuestion(question.language);
             var mapper = new QuestionMapper();
             var questionStore = new QuestionStore();
+
             questionStore.Add(folderId, mapper.ToModel(question));
+
             return RedirectToAction("Admin");
+        }
+
+        private string SaveImage(WebImage image)
+        {
+            string newFileName = string.Empty;
+            if (image != null)
+            {
+                newFileName = Path.GetRandomFileName() + "_" + Path.GetFileName(image.FileName);
+                var imagePath = @"images\" + newFileName;
+
+                image.Save(@"~\" + imagePath);
+            }
+            return newFileName;
         }
     }
 }
