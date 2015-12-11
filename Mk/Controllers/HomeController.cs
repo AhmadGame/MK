@@ -166,7 +166,8 @@ namespace Mk.Controllers
         [HttpGet]
         public ActionResult AddAccount()
         {
-            if (!HttpContext.Request.Cookies.AllKeys.Contains(CookiewKeyAdmin))
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
             {
                 return RedirectToAction("Login");
             }
@@ -176,16 +177,82 @@ namespace Mk.Controllers
         [HttpPost]
         public ActionResult AddAccount(AccountViewModel account)
         {
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
+            {
+                return RedirectToAction("Login");
+            }
             var store = new AccountStore();
             var mapper = new AccountMapper();
             store.Add(mapper.FromModel(account));
-            return RedirectToAction("Admin");
+            return RedirectToAction("Accounts");
+        }
+
+        public ActionResult Accounts()
+        {
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
+            {
+                return RedirectToAction("Login");
+            }
+            var store = new AccountStore();
+            var accounts = store.All();
+            var viewModel = new AccountListViewModel
+            {
+                emails = accounts.Select(a => a.Email).ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult EditAccount(string email)
+        {
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
+            {
+                return RedirectToAction("Login");
+            }
+            var store = new AccountStore();
+            var account = store.GetByEmail(email);
+            var mapper = new AccountMapper();
+            var viewModel = mapper.ToModel(account);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditAccount(AccountViewModel account)
+        {
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
+            {
+                return RedirectToAction("Login");
+            }
+            var store = new AccountStore();
+            var mapper = new AccountMapper();
+            store.Update(mapper.FromModel(account));
+
+            return RedirectToAction("Accounts");
+        }
+
+        public ActionResult DeleteAccount(AccountViewModel account)
+        {
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
+            {
+                return RedirectToAction("Login");
+            }
+            var store = new AccountStore();
+            var mapper = new AccountMapper();
+            store.Delete(mapper.FromModel(account));
+            return RedirectToAction("Accounts");
         }
 
         [HttpGet]
         public ActionResult AddQuestion()
         {
-            if (!HttpContext.Request.Cookies.AllKeys.Contains(CookiewKeyAdmin))
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
             {
                 return RedirectToAction("Login");
             }
@@ -195,6 +262,12 @@ namespace Mk.Controllers
         [HttpPost]
         public ActionResult AddQuestion(QuestionIoModel question)
         {
+            var httpCookie = HttpContext.Request.Cookies[CookiewKeyAdmin];
+            if (httpCookie == null || !httpCookie.Value.Equals(bool.TrueString))
+            {
+                return RedirectToAction("Login");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(question);

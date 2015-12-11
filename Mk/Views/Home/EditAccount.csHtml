@@ -1,0 +1,25 @@
+@model Mk.ViewModels.AccountViewModel
+@{
+    ViewData["Title"] = "VH trafikskola";
+}
+
+    <div class="page-header">
+        <h1>@Model.email</h1>
+    </div>
+
+@using (Html.BeginForm("EditAccount", "Home", new {}, FormMethod.Post, new {@role = "form"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.email)
+    <div class="form-group">
+        @Html.LabelFor(m => m.password, "Password")
+        @Html.TextBoxFor(m => m.password, new {@class = "form-control", @placeholder = "Password", @type = "password"})
+    </div>
+    <div class="form-group">
+        @Html.CheckBoxFor(m => m.isAdmin)
+        @Html.LabelFor(m => m.isAdmin, "Admin")
+    </div>
+    @Html.ActionLink("Cancel", "Accounts", "Home", new { }, new { @class = "btn btn-default" })
+    <button type="submit" class="btn btn-success">Submit</button>
+    @Html.ActionLink("Delete", "DeleteAccount", "Home", Model, new { @class = "btn btn-danger", @style = "float: right" })
+}

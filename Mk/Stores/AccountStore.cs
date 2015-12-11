@@ -1,4 +1,5 @@
-﻿using Mk.Models;
+﻿using System.Collections.Generic;
+using Mk.Models;
 using Npgsql;
 using NpgsqlTypes;
 
@@ -47,6 +48,66 @@ namespace Mk.Stores
                     cmd.Parameters.AddWithValue("@email", NpgsqlDbType.Text, account.Email);
                     cmd.Parameters.AddWithValue("@password", NpgsqlDbType.Text, account.Password);
                     cmd.Parameters.AddWithValue("@isadmin", NpgsqlDbType.Boolean, account.IsAdmin);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public List<Account> All()
+        {
+            var accounts = new List<Account>();
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT * FROM account";
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            accounts.Add(new Account
+                            {
+                                Email = reader.GetString(reader.GetOrdinal("email")),
+                                Password = reader.GetString(reader.GetOrdinal("password")),
+                                IsAdmin = reader.GetBoolean(reader.GetOrdinal("isadmin"))
+                            });
+                        }
+                    }
+                }
+            }
+
+            return accounts;
+        }
+
+        public void Update(Account account)
+        {
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "UPDATE account SET password = @password, isadmin = @isadmin WHERE email = @email";
+                    cmd.Parameters.AddWithValue("@email", NpgsqlDbType.Text, account.Email);
+                    cmd.Parameters.AddWithValue("@password", NpgsqlDbType.Text, account.Password);
+                    cmd.Parameters.AddWithValue("@isadmin", NpgsqlDbType.Boolean, account.IsAdmin);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(Account account)
+        {
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "DELETE FROM account WHERE email = @email";
+                    cmd.Parameters.AddWithValue("@email", NpgsqlDbType.Text, account.Email);
                     cmd.ExecuteNonQuery();
                 }
             }

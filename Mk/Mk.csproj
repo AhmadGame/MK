@@ -140,6 +140,7 @@
     <Compile Include="Stores\QuestionStore.cs" />
     <Compile Include="Stores\Store.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="ViewModels\AccountListViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\FolderListViewModel.cs" />
     <Compile Include="ViewModels\FolderViewModel.cs" />
@@ -976,6 +977,8 @@
     <Content Include="Views\Home\Folder.cshtml" />
     <Content Include="Views\Home\Folders.csHtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Accounts.csHtml" />
+    <Content Include="Views\Home\EditAccount.csHtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
