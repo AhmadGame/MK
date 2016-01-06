@@ -21,9 +21,10 @@ namespace Mk.Controllers
                 return RedirectToAction("Login");
             }
             var store = new FolderStore();
+            var languages = store.All().Select(f => f.Language).Distinct().Where(l => !string.IsNullOrEmpty(l)).ToList();
             var model = new FolderListViewModel
             {
-                languages = store.All().Select(f => f.Language).Distinct().ToList()
+                languages = languages
             };
             return View(model);
         }
@@ -149,7 +150,10 @@ namespace Mk.Controllers
 
         public ActionResult SignOut()
         {
-            HttpContext.Response.Cookies.Clear();
+            foreach (HttpCookie cookie in HttpContext.Response.Cookies)
+            {
+                cookie.Expires = DateTime.Now.AddDays(-1);
+            }
             return RedirectToAction("Login", "Home");
         }
 
@@ -243,8 +247,7 @@ namespace Mk.Controllers
                 return RedirectToAction("Login");
             }
             var store = new AccountStore();
-            var mapper = new AccountMapper();
-            store.Delete(mapper.FromModel(account));
+            store.DeleteByEmail(account.email);
             return RedirectToAction("Accounts");
         }
 
@@ -299,6 +302,39 @@ namespace Mk.Controllers
                 image.Save(@"~\" + imagePath);
             }
             return newFileName;
+        }
+
+        public ActionResult DeleteQuestion(QuestionViewModel question)
+        {
+            bool goToAdmin = false;
+            var questionStore = new QuestionStore();
+            var folderStore = new FolderStore();
+            var folderMapper = new FolderMapper(new QuestionMapper());
+
+            var folderId = questionStore.GetFolderId(question.id);
+            if (folderId == 0)
+            {
+                goToAdmin = true;
+            }
+            var folder = folderStore.GetById(folderId);
+            if (folder == null)
+            {
+                goToAdmin = true;
+            }
+            var folderModel = folderMapper.ToModel(folder);
+
+            questionStore.Delete(question.id);
+
+            var count = questionStore.CountByFolderId(folderId);
+            if (count == 0)
+            {
+                folderStore.Delete(folderId);
+                if (!goToAdmin)
+                {
+                    return RedirectToAction("Folders", "Home", new {language = folder.Language});
+                }
+            }
+            return goToAdmin ? RedirectToAction("Admin") : RedirectToAction("Folder", folderModel);
         }
     }
 }

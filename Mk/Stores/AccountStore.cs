@@ -98,7 +98,7 @@ namespace Mk.Stores
             }
         }
 
-        public void Delete(Account account)
+        public void DeleteByEmail(string email)
         {
             using (var conn = new NpgsqlConnection(ConnectionString))
             {
@@ -107,7 +107,7 @@ namespace Mk.Stores
                 {
                     cmd.Connection = conn;
                     cmd.CommandText = "DELETE FROM account WHERE email = @email";
-                    cmd.Parameters.AddWithValue("@email", NpgsqlDbType.Text, account.Email);
+                    cmd.Parameters.AddWithValue("@email", NpgsqlDbType.Text, email);
                     cmd.ExecuteNonQuery();
                 }
             }

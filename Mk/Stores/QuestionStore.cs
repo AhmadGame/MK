@@ -47,6 +47,29 @@ namespace Mk.Stores
             return questions;
         }
 
+        public int CountByFolderId(long folderId)
+        {
+            var count = 0;
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT Count(*) FROM question WHERE folderid = @folderid";
+                    cmd.Parameters.AddWithValue("@folderid", folderId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            count = reader.GetInt32(reader.GetOrdinal("count"));
+                        }
+                    }
+                }
+            }
+            return count;
+        }
+
         public void Add(long folderId, Question question)
         {
             using (var conn = new NpgsqlConnection(ConnectionString))
@@ -79,6 +102,44 @@ namespace Mk.Stores
 
                 }
             }
+        }
+
+        public void Delete(long id)
+        {
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "DELETE FROM question WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", NpgsqlDbType.Bigint, id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public long GetFolderId(long id)
+        {
+            long folderId = 0;
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT folderid FROM question WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", NpgsqlDbType.Bigint, id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            folderId = reader.GetInt64(reader.GetOrdinal("folderid"));
+                        }
+                    }
+                }
+            }
+            return folderId;
         }
     }
 }

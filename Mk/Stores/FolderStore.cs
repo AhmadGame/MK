@@ -78,8 +78,8 @@ namespace Mk.Stores
                     cmd.Connection = conn;
                     cmd.CommandText = "SELECT fid, fname, Count(qid) as count " +
                                       "FROM (SELECT f.name as fname, q.id as qid, f.id as fid, f.language as lang " +
-                                            "FROM folder f INNER JOIN question q " +
-                                            "ON q.folderid = f.id) as x " +
+                                      "FROM folder f INNER JOIN question q " +
+                                      "ON q.folderid = f.id) as x " +
                                       "WHERE lang = @language " +
                                       "GROUP BY fname, x.fid";
                     cmd.Parameters.AddWithValue("@language", Util.CodeFromLanguage(language));
@@ -121,7 +121,7 @@ namespace Mk.Stores
                 return "Folder 1";
             }
             int i;
-            return int.TryParse(Regex.Match(folder.Name, @"\d+").Value, out i) ? $"Folder {i}" : "Folder 1000";
+            return int.TryParse(Regex.Match(folder.Name, @"\d+").Value, out i) ? $"Folder {i + 1}" : "Folder 1000";
         }
 
         private long Add(Folder folder)
@@ -135,11 +135,54 @@ namespace Mk.Stores
                     cmd.Connection = conn;
                     cmd.CommandText = @"INSERT INTO folder (name, language) VALUES (@name, @language) RETURNING id";
                     cmd.Parameters.AddWithValue("@name", NpgsqlDbType.Text, folder.Name);
-                    cmd.Parameters.AddWithValue("@language", NpgsqlDbType.Text, folder.Language);
+                    cmd.Parameters.AddWithValue("@language", NpgsqlDbType.Text, Util.CodeFromLanguage(folder.Language));
                     folderId = (long) cmd.ExecuteScalar();
                 }
             }
             return folderId;
+        }
+
+        public Folder GetById(long id)
+        {
+            Folder folder = null;
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT * FROM folder WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            folder = new Folder
+                            {
+                                Id = reader.GetInt64(reader.GetOrdinal("id")),
+                                Language = Util.LanguageFromCode(reader.GetString(reader.GetOrdinal("language"))),
+                                Name = reader.GetString(reader.GetOrdinal("name"))
+                            };
+                        }
+                    }
+                }
+            }
+            return folder;
+        }
+
+        public void Delete(long id)
+        {
+            using (var conn = new NpgsqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "DELETE FROM folder WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", NpgsqlDbType.Bigint, id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

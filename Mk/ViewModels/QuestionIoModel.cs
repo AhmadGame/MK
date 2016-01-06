@@ -6,6 +6,7 @@ namespace Mk.ViewModels
 {
     public class QuestionIoModel
     {
+        public long id { get; set; }
         public string language { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Question must have a title.")]
         public string title { get; set; }

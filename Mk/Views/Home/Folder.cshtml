@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "VH trafikskola";
 }
-@using (Html.BeginForm("Correct", "Home", FormMethod.Post, new { @rolde = "form" }))
+@using (Html.BeginForm("Correct", "Home", FormMethod.Post, new {@rolde = "form"}))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.id)
@@ -14,11 +14,19 @@
     </div>
 
     <ul class="list-group">
-        @{var index = 0;}
+        @{ var index = 0; }
+        @{
+            var isAdmin = false;
+            var cookie = Request.Cookies["admin"];
+            if (cookie != null)
+            {
+                isAdmin = cookie.Value.Equals(bool.TrueString);
+            }
+        }
         @foreach (var question in Model.questions)
         {
             <li class="list-group-item">
-                @{ var i = index;}
+                @{ var i = index; }
                 @Html.HiddenFor(m => m.questions[i].id)
                 @Html.HiddenFor(m => m.questions[i].title)
                 @Html.HiddenFor(m => m.questions[i].correct)
@@ -32,8 +40,16 @@
                 @Html.HiddenFor(m => m.questions[i].answer4)
 
                 <div id="Question_@question.id" class="container">
-                    @*<span>@question.id</span>*@
-                    <h4>@question.title</h4>
+                    <h4>
+                        <span>@question.title</span>
+                        @if (isAdmin)
+                        {
+                            <a href="@Url.Action("DeleteQuestion", "Home", question)">
+                                <span style="float: right" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                        }
+                    </h4>
+
                     @if (!string.IsNullOrEmpty(question.image1))
                     {
                         <img src="@Url.Content($"~/images/{@question.image1}")" alt="image1" class="img-responsive">
@@ -92,7 +108,7 @@
                     </div>
                 </div>
 
-                @{index++;}
+                @{ index++; }
             </li>
         }
     </ul>
