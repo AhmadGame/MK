@@ -150,10 +150,24 @@ namespace Mk.Controllers
 
         public ActionResult SignOut()
         {
-            foreach (HttpCookie cookie in HttpContext.Response.Cookies)
+            if (HttpContext.Request.Cookies[CookieKeyEmail] != null)
             {
-                cookie.Expires = DateTime.Now.AddDays(-1);
+                var httpCookie = HttpContext.Response.Cookies[CookieKeyEmail];
+                if (httpCookie != null)
+                {
+                    httpCookie.Expires = DateTime.Now.AddDays(-1);
+                }
             }
+
+            if (HttpContext.Request.Cookies[CookiewKeyAdmin] != null)
+            {
+                var httpCookie = HttpContext.Response.Cookies[CookiewKeyAdmin];
+                if (httpCookie != null)
+                {
+                    httpCookie.Expires = DateTime.Now.AddDays(-1);
+                }
+            }
+
             return RedirectToAction("Login", "Home");
         }
 
